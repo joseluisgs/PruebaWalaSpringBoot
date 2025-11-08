@@ -111,7 +111,7 @@
                                 <tr>
                                     <td>{{ producto.id }}</td>
                                     <td>{{ producto.nombre }}</td>
-                                    <td>{{ producto.precio }}€</td>
+                                    <td>{{ producto.precio | formatPrice }}</td>
                                     <td>{{ producto.categoria }}</td>
                                 </tr>
                                 {% endfor %}

@@ -20,7 +20,7 @@
     </div>
     
     <div class="info">
-        <p><strong>Fecha:</strong> {{ compra.fechaCompra }}</p>
+        <p><strong>Fecha:</strong> {{ compra.fechaCompra | formatDate }}</p>
         <p><strong>Comprador:</strong> {{ compra.propietario.nombre }} {{ compra.propietario.apellidos }}</p>
         <p><strong>Email:</strong> {{ compra.propietario.email }}</p>
     </div>
@@ -38,14 +38,14 @@
             <tr>
                 <td>{{ producto.nombre }}</td>
                 <td>{{ producto.propietario.email }}</td>
-                <td>{{ producto.precio }}€</td>
+                <td>{{ producto.precio | formatPrice }}</td>
             </tr>
             {% endfor %}
         </tbody>
         <tfoot>
             <tr>
                 <td colspan="2" class="total">Total:</td>
-                <td><strong>{{ total }}€</strong></td>
+                <td><strong>{{ total | formatPrice }}</strong></td>
             </tr>
         </tfoot>
     </table>

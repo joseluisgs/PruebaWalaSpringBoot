@@ -1,7 +1,9 @@
 package com.joseluisgs.walaspringboot.controllers;
 
 import com.joseluisgs.walaspringboot.models.User;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
@@ -54,5 +56,17 @@ public class GlobalControllerAdvice {
             return user.getRol();
         }
         return null;
+    }
+
+    @ModelAttribute("csrfToken")
+    public String getCsrfToken(HttpServletRequest request) {
+        CsrfToken csrfToken = (CsrfToken) request.getAttribute(CsrfToken.class.getName());
+        return csrfToken != null ? csrfToken.getToken() : "";
+    }
+
+    @ModelAttribute("csrfParamName")
+    public String getCsrfParamName(HttpServletRequest request) {
+        CsrfToken csrfToken = (CsrfToken) request.getAttribute(CsrfToken.class.getName());
+        return csrfToken != null ? csrfToken.getParameterName() : "_csrf";
     }
 }

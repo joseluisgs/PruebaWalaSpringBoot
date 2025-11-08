@@ -44,7 +44,7 @@
                         {% for compra in compras %}
                         <tr>
                             <td>{{ compra.id }}</td>
-                            <td>{{ compra.fechaCompra }}</td>
+                            <td>{{ compra.fechaCompra | formatDate }}</td>
                             <td>{{ compra.propietario.nombre }} {{ compra.propietario.apellidos }}</td>
                             <td>{{ compra.propietario.email }}</td>
                             <td>

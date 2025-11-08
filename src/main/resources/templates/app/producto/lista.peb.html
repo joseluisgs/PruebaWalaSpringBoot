@@ -29,7 +29,7 @@
                 <div class="card-footer bg-white">
                     <div class="row align-items-center">
                         <div class="col-4">
-                            <h5 class="mb-0 text-primary">{{ producto.precio }}€</h5>
+                            <h5 class="mb-0 text-primary">{{ producto.precio | formatPrice }}</h5>
                         </div>
                         <div class="col-4 text-center">
                             {% if producto.compra is not null %}

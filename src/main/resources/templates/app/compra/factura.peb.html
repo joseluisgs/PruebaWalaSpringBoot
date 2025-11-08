@@ -15,7 +15,7 @@
                 <div class="card-body">
                     <div class="mb-4">
                         <h5>Datos de la compra:</h5>
-                        <p><strong>Fecha:</strong> {{ compra.fechaCompra }}</p>
+                        <p><strong>Fecha:</strong> {{ compra.fechaCompra | formatDate }}</p>
                         <p><strong>Comprador:</strong> {{ compra.propietario.nombre }} {{ compra.propietario.apellidos }}</p>
                         <p><strong>Email:</strong> {{ compra.propietario.email }}</p>
                     </div>
@@ -35,14 +35,14 @@
                                 <tr>
                                     <td>{{ producto.nombre }}</td>
                                     <td>{{ producto.propietario.email }}</td>
-                                    <td class="text-end">{{ producto.precio }}€</td>
+                                    <td class="text-end">{{ producto.precio | formatPrice }}</td>
                                 </tr>
                                 {% endfor %}
                             </tbody>
                             <tfoot>
                                 <tr>
                                     <td colspan="2" class="text-end"><strong>Total:</strong></td>
-                                    <td class="text-end"><strong>{{ total }}€</strong></td>
+                                    <td class="text-end"><strong>{{ total | formatPrice }}</strong></td>
                                 </tr>
                             </tfoot>
                         </table>
