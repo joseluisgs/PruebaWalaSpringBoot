@@ -1,17 +1,22 @@
 plugins {
     java
-    id("org.springframework.boot") version "3.4.0"
-    id("io.spring.dependency-management") version "1.1.6"
+    id("org.springframework.boot") version "3.5.6" // Plugin de Spring Boot
+    id("io.spring.dependency-management") version "1.1.7" // Plugin de gestión de dependencias de Spring
 }
 
-group = "com.joseluisgs"
-version = "0.0.1"
+group = "dev.joseluisgs"
+version = "0.0.1-SNAPSHOT"
 
 java {
+    // versión de Java
+    sourceCompatibility = JavaVersion.VERSION_25 // Sintaxis de Java 25
+    targetCompatibility = JavaVersion.VERSION_25 // Versión de Java 25 para ser compilado y ejecutado
+    
     toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
+        languageVersion = JavaLanguageVersion.of(25) // Versión de Java 25 para el toolchain
     }
 }
+
 
 repositories {
     mavenCentral()
