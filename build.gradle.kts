@@ -9,7 +9,7 @@ version = "0.0.1"
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(25)
+        languageVersion = JavaLanguageVersion.of(21)
     }
 }
 
@@ -23,9 +23,11 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-cache")
+    implementation("org.springframework.boot:spring-boot-starter-validation")
     
     // Pebble Template Engine
     implementation("io.pebbletemplates:pebble-spring-boot-starter:3.2.2")
+    implementation("io.pebbletemplates:pebble:3.2.2")
     
     // H2 Database
     runtimeOnly("com.h2database:h2")
