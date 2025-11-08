@@ -1,11 +1,11 @@
 package com.joseluisgs.walaspringboot;
 
-import com.joseluisgs.walaspringboot.modelos.Producto;
-import com.joseluisgs.walaspringboot.modelos.Usuario;
-import com.joseluisgs.walaspringboot.servicios.ProductoServicio;
-import com.joseluisgs.walaspringboot.servicios.UsuarioServicio;
-import com.joseluisgs.walaspringboot.upload.StorageProperties;
-import com.joseluisgs.walaspringboot.upload.StorageService;
+import com.joseluisgs.walaspringboot.models.Producto;
+import com.joseluisgs.walaspringboot.models.Usuario;
+import com.joseluisgs.walaspringboot.services.ProductoServicio;
+import com.joseluisgs.walaspringboot.services.UsuarioServicio;
+import com.joseluisgs.walaspringboot.storage.StorageProperties;
+import com.joseluisgs.walaspringboot.storage.StorageService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
