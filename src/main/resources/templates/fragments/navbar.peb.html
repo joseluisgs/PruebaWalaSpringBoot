@@ -1,72 +1,82 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container-fluid">
         <a class="navbar-brand" href="/">
-            <img src="/images/logo.png" alt="Logo" height="30" class="d-inline-block align-text-top">
+            <img alt="Logo" class="d-inline-block align-text-top" height="30" src="/images/logo.png">
         </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <button class="navbar-toggler" data-bs-target="#navbarNav" data-bs-toggle="collapse" type="button">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto">
                 <li class="nav-item">
-                    <a class="nav-link active" href="/"><i class="bi bi-house-door"></i> {{ i18n('nav.home') }}</a>
+                    <a class="nav-link active" href="/"><i class="bi bi-house-door"></i> {{ message('nav.home') }}</a>
                 </li>
                 {% if authenticated %}
                 <li class="nav-item">
-                    <a class="nav-link" href="/app/misproductos"><i class="bi bi-bag"></i> {{ i18n('nav.my.products') }}</a>
+                    <a class="nav-link" href="/app/misproductos"><i class="bi bi-bag"></i> {{ message('nav.my.products')
+                        }}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/app/miscompras"><i class="bi bi-receipt"></i> {{ i18n('nav.purchases') }}</a>
+                    <a class="nav-link" href="/app/miscompras"><i class="bi bi-receipt"></i> {{ message('nav.purchases')
+                        }}</a>
                 </li>
                 {% if isAdmin %}
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                        <i class="bi bi-shield-check"></i> {{ i18n('nav.admin.dashboard') }}
+                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button">
+                        <i class="bi bi-shield-check"></i> {{ message('nav.admin.dashboard') }}
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="/admin/dashboard"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
-                        <li><a class="dropdown-item" href="/admin/usuarios"><i class="bi bi-people"></i> {{ i18n('nav.user.management') }}</a></li>
-                        <li><a class="dropdown-item" href="/admin/productos"><i class="bi bi-box-seam"></i> {{ i18n('nav.products') }}</a></li>
+                        <li><a class="dropdown-item" href="/admin/dashboard"><i class="bi bi-speedometer2"></i>
+                            Dashboard</a></li>
+                        <li><a class="dropdown-item" href="/admin/usuarios"><i class="bi bi-people"></i> {{
+                            message('nav.user.management') }}</a></li>
+                        <li><a class="dropdown-item" href="/admin/productos"><i class="bi bi-box-seam"></i> {{
+                            message('nav.products') }}</a></li>
                     </ul>
                 </li>
                 {% endif %}
                 {% endif %}
             </ul>
-            
-            <form class="d-flex me-3" role="search" action="/" method="get">
-                <input class="form-control" type="search" placeholder="{{ i18n('product.search') }}" name="q" value="{{ q | default('') }}">
+
+            <form action="/" class="d-flex me-3" method="get" role="search">
+                <input class="form-control" name="q" placeholder="{{ message('product.search') }}" type="search"
+                       value="{{ q | default('') }}">
                 <button class="btn btn-outline-light ms-2" type="submit"><i class="bi bi-search"></i></button>
             </form>
-            
+
             <ul class="navbar-nav">
                 <!-- Language Switcher -->
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button">
                         <i class="bi bi-globe"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item" href="?lang=es"><img src="https://flagcdn.com/w20/es.png" alt="ES" width="20"> Español</a></li>
-                        <li><a class="dropdown-item" href="?lang=en"><img src="https://flagcdn.com/w20/gb.png" alt="EN" width="20"> English</a></li>
+                        <li><a class="dropdown-item" href="?lang=es"><img alt="ES" src="https://flagcdn.com/w20/es.png"
+                                                                          width="20"> Español</a></li>
+                        <li><a class="dropdown-item" href="?lang=en"><img alt="EN" src="https://flagcdn.com/w20/gb.png"
+                                                                          width="20"> English</a></li>
                     </ul>
                 </li>
-                
+
                 {% if authenticated %}
                 <li class="nav-item">
                     <a class="nav-link" href="/app/carrito">
                         <span class="badge bg-danger">{{ items_carrito | default(0) }}</span>
-                        <i class="bi bi-cart"></i> {{ i18n('nav.shopping.cart') }}
+                        <i class="bi bi-cart"></i> {{ message('nav.shopping.cart') }}
                     </a>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button">
                         <i class="bi bi-person-circle"></i> {{ username | default('Usuario') }}
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end">
                         <li><h6 class="dropdown-header">{{ userRole | default('USER') }}</h6></li>
-                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
                         <li>
                             <a class="dropdown-item" href="javascript:document.getElementById('logoutForm').submit()">
-                                <i class="bi bi-box-arrow-right"></i> {{ i18n('nav.logout') }}
+                                <i class="bi bi-box-arrow-right"></i> {{ message('nav.logout') }}
                             </a>
                         </li>
                     </ul>
@@ -74,7 +84,7 @@
                 {% else %}
                 <li class="nav-item">
                     <a class="nav-link" href="/auth/login">
-                        <i class="bi bi-person"></i> {{ i18n('nav.login') }}
+                        <i class="bi bi-person"></i> {{ message('nav.login') }}
                     </a>
                 </li>
                 {% endif %}
@@ -84,6 +94,6 @@
 </nav>
 
 {% if authenticated %}
-<form id="logoutForm" method="post" action="/auth/logout" style="display: none;">
+<form action="/auth/logout" id="logoutForm" method="post" style="display: none;">
 </form>
 {% endif %}

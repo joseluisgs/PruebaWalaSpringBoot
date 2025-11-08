@@ -5,38 +5,41 @@
 <body class="d-flex flex-column min-vh-100">
 {% include "fragments/navbar" %}
 
-    {% include "fragments/carrusel" %}
+{% include "fragments/carrusel" %}
 
 <div class="container mb-5">
     <!-- Filtros -->
     <div class="card mb-4">
         <div class="card-body">
-            <form action="/" method="get" class="row g-3">
+            <form action="/" class="row g-3" method="get">
                 <div class="col-md-4">
-                    <label class="form-label">{{ i18n('product.search') }}</label>
-                    <input type="text" class="form-control" name="q" value="{{ q | default('') }}" placeholder="{{ i18n('product.search') }}">
+                    <label class="form-label">{{ message('product.search') }}</label>
+                    <input class="form-control" name="q" placeholder="{{ message('product.search') }}" type="text"
+                           value="{{ q | default('') }}">
                 </div>
                 <div class="col-md-3">
-                    <label class="form-label">{{ i18n('product.category') }}</label>
+                    <label class="form-label">{{ message('product.category') }}</label>
                     <select class="form-select" name="categoria">
                         <option value="">Todas</option>
-                        <option value="Smartphones">{{ i18n('category.smartphones') }}</option>
-                        <option value="Laptops">{{ i18n('category.laptops') }}</option>
-                        <option value="Audio">{{ i18n('category.audio') }}</option>
-                        <option value="Gaming">{{ i18n('category.gaming') }}</option>
-                        <option value="Accessories">{{ i18n('category.accessories') }}</option>
+                        <option value="Smartphones">{{ message('category.smartphones') }}</option>
+                        <option value="Laptops">{{ message('category.laptops') }}</option>
+                        <option value="Audio">{{ message('category.audio') }}</option>
+                        <option value="Gaming">{{ message('category.gaming') }}</option>
+                        <option value="Accessories">{{ message('category.accessories') }}</option>
                     </select>
                 </div>
                 <div class="col-md-2">
-                    <label class="form-label">{{ i18n('product.price.min') }}</label>
-                    <input type="number" class="form-control" name="minPrecio" value="{{ minPrecio | default('') }}" placeholder="0">
+                    <label class="form-label">{{ message('product.price.min') }}</label>
+                    <input class="form-control" name="minPrecio" placeholder="0" type="number"
+                           value="{{ minPrecio | default('') }}">
                 </div>
                 <div class="col-md-2">
-                    <label class="form-label">{{ i18n('product.price.max') }}</label>
-                    <input type="number" class="form-control" name="maxPrecio" value="{{ maxPrecio | default('') }}" placeholder="9999">
+                    <label class="form-label">{{ message('product.price.max') }}</label>
+                    <input class="form-control" name="maxPrecio" placeholder="9999" type="number"
+                           value="{{ maxPrecio | default('') }}">
                 </div>
                 <div class="col-md-1 d-flex align-items-end">
-                    <button type="submit" class="btn btn-primary w-100"><i class="bi bi-search"></i></button>
+                    <button class="btn btn-primary w-100" type="submit"><i class="bi bi-search"></i></button>
                 </div>
             </form>
         </div>
@@ -45,21 +48,23 @@
     <!-- Lista de Productos -->
     {% if productos is empty %}
     <div class="alert alert-info text-center">
-        <i class="bi bi-info-circle"></i> {{ i18n('product.no.products') }}
+        <i class="bi bi-info-circle"></i> {{ message('product.no.products') }}
     </div>
     {% else %}
     <div class="row row-cols-1 row-cols-md-3 g-4">
         {% for producto in productos %}
         <div class="col">
-            <div class="card h-100 shadow-sm producto-card" onclick="window.location='/public/producto/{{ producto.id }}';" style="cursor: pointer;">
-                <img src="{% if producto.imagen is empty %}https://placehold.co/400x300/667eea/white?text={{ producto.nombre | url_encode }}{% else %}{{ producto.imagen }}{% endif %}" 
-                     class="card-img-top" alt="{{ producto.nombre }}" style="height: 300px; object-fit: cover;">
+            <div class="card h-100 shadow-sm producto-card"
+                 onclick="window.location='/public/producto/{{ producto.id }}';" style="cursor: pointer;">
+                <img alt="{{ producto.nombre }}"
+                     class="card-img-top" src="{% if producto.imagen is empty %}https://placehold.co/400x300/667eea/white?text={{ producto.nombre | url_encode }}{% else %}{{ producto.imagen }}{% endif %}" style="height: 300px; object-fit: cover;">
                 <div class="card-body">
                     <h5 class="card-title">{{ producto.nombre }}</h5>
                     {% if producto.descripcion %}
-                    <p class="card-text text-muted small">{{ producto.descripcion | slice(0, 80) }}{% if producto.descripcion | length > 80 %}...{% endif %}</p>
+                    <p class="card-text text-muted small">{{ producto.descripcion | slice(0, 80) }}{% if
+                        producto.descripcion | length > 80 %}...{% endif %}</p>
                     {% endif %}
-    {% if producto.categoria %}
+                    {% if producto.categoria %}
                     <span class="badge bg-secondary">{{ producto.categoria }}</span>
                     {% endif %}
                 </div>
@@ -70,8 +75,9 @@
                         </div>
                         {% if authenticated and username != producto.propietario.email %}
                         <div class="col-md-6 text-end">
-                            <a href="/app/carrito/add/{{ producto.id }}" class="btn btn-success btn-sm" onclick="event.stopPropagation();">
-                                <i class="bi bi-cart-plus"></i> {{ i18n('btn.buy') }}
+                            <a class="btn btn-success btn-sm" href="/app/carrito/add/{{ producto.id }}"
+                               onclick="event.stopPropagation();">
+                                <i class="bi bi-cart-plus"></i> {{ message('btn.buy') }}
                             </a>
                         </div>
                         {% endif %}
@@ -87,7 +93,9 @@
 {% include "fragments/footer" %}
 
 <!-- Bootstrap 5.3 JS Bundle with Popper -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<script crossorigin="anonymous"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>

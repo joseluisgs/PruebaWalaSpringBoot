@@ -8,7 +8,7 @@
     <div class="row">
         <div class="col-12">
             <h1 class="mb-4">
-                <i class="bi bi-speedometer2"></i> {{ i18n('dashboard.title') }}
+                <i class="bi bi-speedometer2"></i> {{ message('dashboard.title') }}
             </h1>
         </div>
     </div>
@@ -20,7 +20,7 @@
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
-                            <h6 class="card-title">{{ i18n('dashboard.total.products') }}</h6>
+                            <h6 class="card-title">{{ message('dashboard.total.products') }}</h6>
                             <h2 class="mb-0">{{ totalProductos }}</h2>
                         </div>
                         <div>
@@ -36,7 +36,7 @@
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
-                            <h6 class="card-title">{{ i18n('dashboard.total.users') }}</h6>
+                            <h6 class="card-title">{{ message('dashboard.total.users') }}</h6>
                             <h2 class="mb-0">{{ totalUsuarios }}</h2>
                         </div>
                         <div>
@@ -52,7 +52,7 @@
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
-                            <h6 class="card-title">{{ i18n('dashboard.total.purchases') }}</h6>
+                            <h6 class="card-title">{{ message('dashboard.total.purchases') }}</h6>
                             <h2 class="mb-0">{{ totalCompras }}</h2>
                         </div>
                         <div>
@@ -69,7 +69,7 @@
         <div class="col-md-6">
             <div class="card">
                 <div class="card-header">
-                    <h5><i class="bi bi-bar-chart"></i> {{ i18n('dashboard.statistics') }}</h5>
+                    <h5><i class="bi bi-bar-chart"></i> {{ message('dashboard.statistics') }}</h5>
                 </div>
                 <div class="card-body">
                     <canvas id="statsChart"></canvas>
@@ -93,7 +93,7 @@
         <div class="col-md-6">
             <div class="card">
                 <div class="card-header">
-                    <h5><i class="bi bi-clock-history"></i> {{ i18n('dashboard.recent.products') }}</h5>
+                    <h5><i class="bi bi-clock-history"></i> {{ message('dashboard.recent.products') }}</h5>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -101,9 +101,9 @@
                             <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>{{ i18n('product.name') }}</th>
-                                    <th>{{ i18n('product.price') }}</th>
-                                    <th>{{ i18n('product.category') }}</th>
+                                    <th>{{ message('product.name') }}</th>
+                                    <th>{{ message('product.price') }}</th>
+                                    <th>{{ message('product.category') }}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -126,7 +126,7 @@
         <div class="col-md-6">
             <div class="card">
                 <div class="card-header">
-                    <h5><i class="bi bi-person-plus"></i> {{ i18n('dashboard.recent.users') }}</h5>
+                    <h5><i class="bi bi-person-plus"></i> {{ message('dashboard.recent.users') }}</h5>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -134,9 +134,9 @@
                             <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>{{ i18n('user.name') }}</th>
-                                    <th>{{ i18n('user.email') }}</th>
-                                    <th>{{ i18n('user.role') }}</th>
+                                    <th>{{ message('user.name') }}</th>
+                                    <th>{{ message('user.email') }}</th>
+                                    <th>{{ message('user.role') }}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -167,9 +167,9 @@
     new Chart(ctx1, {
         type: 'bar',
         data: {
-            labels: ['{{ i18n('dashboard.total.products') }}', '{{ i18n('dashboard.total.users') }}', '{{ i18n('dashboard.total.purchases') }}'],
+            labels: ['{{ message('dashboard.total.products') }}', '{{ message('dashboard.total.users') }}', '{{ message('dashboard.total.purchases') }}'],
             datasets: [{
-                label: '{{ i18n('dashboard.statistics') }}',
+                label: '{{ message('dashboard.statistics') }}',
                 data: [{{ totalProductos }}, {{ totalUsuarios }}, {{ totalCompras }}],
                 backgroundColor: [
                     'rgba(54, 162, 235, 0.5)',
