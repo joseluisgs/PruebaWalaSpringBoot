@@ -29,9 +29,10 @@ public class ZonaPublicaController {
         return productoServicio.productosSinVender();
     }
 
+
     // Escuchamos en las dos rutas por defecto
     // Tenemos una query, del buscador y no es obligatoria
-    @GetMapping({"/", "/index", "/public", "/public/"})
+    @GetMapping({"", "/", "/index"})
     public String index(Model model,
                         @RequestParam(name = "q", required = false) String query,
                         @RequestParam(name = "categoria", required = false) String categoria,

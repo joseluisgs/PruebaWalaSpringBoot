@@ -3,7 +3,9 @@ package com.joseluisgs.walaspringboot.controllers;
 import com.joseluisgs.walaspringboot.models.User;
 import com.joseluisgs.walaspringboot.services.UserService;
 import com.joseluisgs.walaspringboot.storage.StorageService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,44 +18,46 @@ import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBui
 @Controller
 public class LoginController {
 
-    // Servicio de usuario
-    @Autowired
-    UserService usuarioServicio;
+    final UserService usuarioServicio;
+    final StorageService storageService;
 
-    // Servicio de almacenamiento
     @Autowired
-    StorageService storageService;
+    public LoginController(UserService usuarioServicio, StorageService storageService) {
+        this.usuarioServicio = usuarioServicio;
+        this.storageService = storageService;
+    }
 
-    // Si entra por defecto redirigimos a otro controlador a la ruta public
     @GetMapping("/")
     public String welcome() {
         return "redirect:/public/";
     }
 
-    // Ruta de login, como también es registro, por eso le pasamos los campos
-    // Para que pueda casarlos con la parte del registro, command object del usuario a crear
-
     @GetMapping("/auth/login")
-    public String login(Model model) {
+    public String login(Model model, HttpServletRequest request) {
+        // ⭐ AÑADIR CSRF TOKEN ⭐
+        CsrfToken csrfToken = (CsrfToken) request.getAttribute(CsrfToken.class.getName());
+        if (csrfToken != null) {
+            model.addAttribute("csrfToken", csrfToken.getToken());
+            model.addAttribute("csrfParamName", csrfToken.getParameterName());
+        }
+
+        // Para el formulario de registro
         model.addAttribute("usuario", new User());
         return "login";
     }
 
-    // No se hace el Post de Login-post, porque está dentro del circuito de Spring Security
-
-    // Registro del usuario que obtenemos con ModelAttribute
     @PostMapping("/auth/register")
-    public String register(@ModelAttribute User usuario , @RequestParam("file") MultipartFile file) {
-        //Subida de imagenes más adelante
+    public String register(@ModelAttribute User usuario,
+                           @RequestParam("file") MultipartFile file) {
+        // Subida de imágenes
         if (!file.isEmpty()) {
             String imagen = storageService.store(file);
             usuario.setAvatar(MvcUriComponentsBuilder
-                    .fromMethodName(FilesController.class, "serveFile", imagen).build().toUriString());
-
+                    .fromMethodName(FilesController.class, "serveFile", imagen)
+                    .build().toUriString());
         }
 
         usuarioServicio.registrar(usuario);
-        // Le llevamos al login
         return "redirect:/auth/login";
     }
 }

@@ -15,11 +15,13 @@
                 </div>
                 <div class="card-body">
                     <form action="/auth/login-post" id="loginform" method="POST">
+                        <input name="{{ csrfParamName }}" type="hidden" value="{{ csrfToken }}">
                         <div class="mb-3">
                             <label class="form-label" for="username">{{ message('auth.email') }}</label>
                             <div class="input-group">
                                 <span class="input-group-text"><i class="bi bi-person"></i></span>
-                                <input class="form-control" id="login-username" name="username" placeholder="{{ message('auth.email') }}"
+                                <input class="form-control" id="login-username" name="username"
+                                       placeholder="{{ message('auth.email') }}"
                                        required type="text">
                             </div>
                         </div>
@@ -28,7 +30,8 @@
                             <label class="form-label" for="password">{{ message('auth.password') }}</label>
                             <div class="input-group">
                                 <span class="input-group-text"><i class="bi bi-lock"></i></span>
-                                <input class="form-control" id="login-password" name="password" placeholder="{{ message('auth.password') }}"
+                                <input class="form-control" id="login-password" name="password"
+                                       placeholder="{{ message('auth.password') }}"
                                        required type="password">
                             </div>
                         </div>
@@ -58,6 +61,7 @@
                 </div>
                 <div class="card-body">
                     <form action="/auth/register" enctype="multipart/form-data" id="signupform" method="POST">
+                        <input name="{{ csrfParamName }}" type="hidden" value="{{ csrfToken }}">
                         <div class="mb-3">
                             <label class="form-label" for="email">{{ message('user.email') }}</label>
                             <input class="form-control" name="email" placeholder="{{ message('user.email') }}"

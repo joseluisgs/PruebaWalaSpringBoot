@@ -11,7 +11,7 @@
                 <li class="nav-item">
                     <a class="nav-link active" href="/"><i class="bi bi-house-door"></i> {{ message('nav.home') }}</a>
                 </li>
-                {% if authenticated %}
+                {% if isAuthenticated %}
                 <li class="nav-item">
                     <a class="nav-link" href="/app/misproductos"><i class="bi bi-bag"></i> {{ message('nav.my.products')
                         }}</a>
@@ -58,7 +58,7 @@
                     </ul>
                 </li>
 
-                {% if authenticated %}
+                {% if isAuthenticated %}
                 <li class="nav-item">
                     <a class="nav-link" href="/app/carrito">
                         <span class="badge bg-danger">{{ items_carrito | default(0) }}</span>
@@ -93,7 +93,7 @@
     </div>
 </nav>
 
-{% if authenticated %}
+{% if isAuthenticated %}
 <form action="/auth/logout" id="logoutForm" method="post" style="display: none;">
 </form>
 {% endif %}
