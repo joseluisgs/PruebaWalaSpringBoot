@@ -28,7 +28,7 @@
                         <h3>{{ producto.nombre }}</h3>
                     </div>
                     <div class="mb-3">
-                        <h4 class="text-primary"><strong>{{ producto.precio }}€</strong></h4>
+                        <h4 class="text-primary"><strong>{{ producto.precio | formatPrice }}</strong></h4>
                     </div>
                     {% if isAuthenticated and currentUser.email != producto.propietario.email %}
                     <a class="btn btn-lg btn-success w-100" href="/app/carrito/add/{{ producto.id }}">

@@ -33,7 +33,7 @@
                         </div>
                         <div class="col-md-8">
                             <form action="/app/perfil/editar" method="post" enctype="multipart/form-data">
-                                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                                <input type="hidden" name="{{ csrfParamName }}" value="{{ csrfToken }}"/>
                                 
                                 <div class="mb-3">
                                     <label for="nombre" class="form-label">Nombre</label>
@@ -61,7 +61,7 @@
 
                                 <div class="mb-3">
                                     <label class="form-label">Fecha de Alta</label>
-                                    <p class="form-control-plaintext">{{ usuario.fechaAlta }}</p>
+                                    <p class="form-control-plaintext">{{ usuario.fechaAlta | formatDate }}</p>
                                 </div>
 
                                 <div class="d-grid gap-2">

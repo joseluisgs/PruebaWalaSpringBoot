@@ -41,7 +41,7 @@
                                         </div>
                                     </td>
                                     <td class="text-center align-middle">
-                                        <h6 class="text-primary">{{ producto.precio }}€</h6>
+                                        <h6 class="text-primary">{{ producto.precio | formatPrice }}</h6>
                                     </td>
                                 </tr>
                                 {% endfor %}
@@ -49,7 +49,7 @@
                             <tfoot>
                                 <tr class="table-light">
                                     <td class="text-end"><strong>Total:</strong></td>
-                                    <td class="text-center"><h4 class="text-success mb-0">{{ total_carrito }}€</h4></td>
+                                    <td class="text-center"><h4 class="text-success mb-0">{{ total_carrito | formatPrice }}</h4></td>
                                 </tr>
                             </tfoot>
                         </table>

@@ -42,7 +42,7 @@
                                 </div>
                             </td>
                             <td class="text-center align-middle">
-                                <h5 class="text-primary">{{ producto.precio }}€</h5>
+                                <h5 class="text-primary">{{ producto.precio | formatPrice }}</h5>
                             </td>
                             <td class="text-center align-middle">
                                 <a href="/app/carrito/eliminar/{{ producto.id }}" class="btn btn-danger btn-sm">
@@ -55,7 +55,7 @@
                     <tfoot>
                         <tr>
                             <td colspan="2" class="text-end"><strong>Total:</strong></td>
-                            <td class="text-center"><h4 class="text-primary">{{ total }}€</h4></td>
+                            <td class="text-center"><h4 class="text-primary">{{ total_carrito | formatPrice }}</h4></td>
                         </tr>
                     </tfoot>
                 </table>
