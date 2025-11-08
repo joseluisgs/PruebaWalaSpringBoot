@@ -1,0 +1,65 @@
+<!-- Fragment de NAVBAR que se verá en tiempo de ejecución -->
+<!-- La barra la fijamos-->
+<nav th:fragment="navbar" class="navbar navbar-inverse navbar-fixed-top" xmlns:th="http://www.w3.org/1999/xhtml">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse"
+                    data-target="#myNavbar">
+                <span class="icon-bar"></span> <span class="icon-bar"></span> <span
+                    class="icon-bar"></span>
+            </button>
+            <!-- ruta del controlador en cada elemento del menú en el icono-->
+            <a th:href="@{/}"><img class="navbar-brand" th:src="@{/images/logo.png}"></a>
+
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav">
+                <!-- Volvemos al inicio -->
+                <li class="active"><a th:href="@{/}">Inicio</a></li>
+
+                <!-- Solo si esta autorizado/autenticado mostramos los elementos -->
+                <li sec:authorize="isAuthenticated()">
+                    <a th:href="@{/app/misproductos}">Mis Productos</a>
+                </li>
+                <li sec:authorize="isAuthenticated()">
+                    <a th:href="@{/app/miscompras}">Mis Compras</a>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <!-- Solo si es está autenticado mostramos los elementos -->
+                <li sec:authorize="isAuthenticated()">
+                    <!-- Ruta al carrito -->
+                    <a th:href="@{/app/carrito}" >
+
+                        <!-- Items del crrito. Ver Controlador Compra para entenderlo -->
+                        <!-- Haciendo uso del modelo que recibe, con la variable items_carrito de dicho modelo. -->
+                        <!--<font th:text="${items_carrito}" color='darksalmon'></font>-->
+                        <!-- Haciendo uso de la sesion. -->
+                        <font th:text="${session.items_carrito}" th:unless="${session == null}" color='darksalmon'></font>
+
+                        <span class="glyphicon glyphicon-shopping-cart"></span> Carrito</a></li>
+                <li sec:authorize="!isAuthenticated()">
+                    <!-- Ruta a login -->
+                    <a th:href="@{/auth/login}"><span class="glyphicon glyphicon-user"></span> Login</a></li>
+                <li sec:authorize="isAuthenticated()" class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        <!-- Mostramos el nombre de usuario, si no mostramos Menú-->
+                        <span th:text="${#authentication.name}">Menú</span> <span class="caret"></span>
+                </a>
+                    <!-- Logout referencia a formulario de la pantalla principal -->
+                    <ul class="dropdown-menu">
+                        <li><a
+                                href="javascript:document.getElementById('logoutForm').submit()">Salir</a>
+                        </li>
+                    </ul></li>
+            </ul>
+            <!-- Formulario de buscar -->
+            <form class="navbar-form navbar-right">
+                <input type="text" class="form-control" placeholder="Buscar..."
+                       name="q" th:value="${param.q}">
+            </form>
+        </div>
+    </div>
+    <!-- Formulario de dalir -->
+    <form th:action="@{/auth/logout}" method="POST" id="logoutForm"></form>
+</nav>

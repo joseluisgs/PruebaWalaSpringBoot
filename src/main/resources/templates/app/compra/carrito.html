@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<!-- Plantilla de cabecera, misma idea que el resto, mirar navbar y pie-->
+<head th:insert="fragments/head :: head" ></head>
+
+<body>
+
+<!-- Barra de navegacion -->
+<nav  th:replace="fragments/navbar :: navbar" class="navbar navbar-inverse navbar-fixed-top"></nav>
+<br><br><br>
+
+	<div class="container">
+		<div class="row" th:if="${carrito == null}">
+			<div class="col-md-offset-1 col-md-10">
+				<div class="jumbotron">
+					<div class="container">
+						<h2 class="text-center">Aún no ha seleccionado ningún producto para comprar</h2>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row" th:unless="${carrito == null}">
+			<div class="col-sm-12 col-md-10 col-md-offset-1">
+				<table class="table table-hover">
+					<thead>
+						<tr>
+							<th>Producto</th>
+							<th class="text-center">Total</th>
+							<th> </th>
+						</tr>
+					</thead>
+					<tbody>
+						<!-- Para cada producto -->
+						<tr th:each="producto : ${carrito}">
+							<td class="col-md-10">
+								<div class="media">
+									<img src="https://placehold.it/150x150?text=SIN%20IMAGEN"
+										class="thumbnail pull-left media-object"
+										th:src="${#strings.isEmpty(producto.imagen)} ? 'https://placehold.it/150x150?text=SIN%20IMAGEN' : ${producto.imagen}"
+										style="width: 150px;">									
+									<div class="media-body">
+										<h4 class="media-heading">&nbsp;
+											<span th:text="${producto.nombre}">Nombre del producto</span>
+										</h4>
+										<h5 class="media-heading">&nbsp;
+											de <span th:text="${producto.propietario.email}">pepe@pepe.com</span>
+										</h5>
+										
+									</div>
+								</div>
+							</td>
+							<!-- Botón eliminar -->
+							<td class="col-md-1 text-center"><strong th:text="${#numbers.formatCurrency(producto.precio)}">$31.53</strong></td>
+							<td class="col-md-1">
+								<a th:href="@{/app/carrito/eliminar/{id}(id=${producto.id})}" class="btn btn-danger">
+									<span class="glyphicon glyphicon-remove"></span> Eliminar
+								</a>
+							</td>
+						</tr>
+						
+						
+						<tr>
+							<!-- Total -->
+							<td> </td>
+							<td><h3>Total</h3></td>
+							<td class="text-right"><h3>
+									<strong th:text="${#numbers.formatCurrency(total_carrito)}">$31.53</strong>
+								</h3></td>
+						</tr>
+						<tr>
+							<td> </td>
+							<td>
+								<!-- Seguir comprando -->
+								<a th:href="@{/public/}" class="btn btn-default">
+									<span class="glyphicon glyphicon-shopping-cart"></span>
+									Continuar comprando
+								</a>
+							</td>
+							<td>
+								<!-- Finalizar compra  -->
+								<a th:href="@{/app/carrito/finalizar}" class="btn btn-success">
+									Finalizar compra <span class="glyphicon glyphicon-play"></span>
+								</a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<br>
+	<br>
+<!-- Footer -->
+<footer th:insert="fragments/footer :: footer" class="navbar-inverse navbar-fixed-bottom"></footer>
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"
+		th:src="@{/webjars/jquery/jquery.min.js}"></script>
+	<script
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+		th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+
+
+
+
+</body>
+</html>

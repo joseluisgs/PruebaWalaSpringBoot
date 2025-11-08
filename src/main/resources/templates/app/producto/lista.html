@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<!-- Plantilla de cabecera, misma idea que el resto, mirar navbar y pie-->
+<head th:insert="fragments/head :: head" ></head>
+
+<body>
+<!-- Barra de navegacion -->
+<nav  th:replace="fragments/navbar :: navbar" class="navbar navbar-inverse navbar-fixed-top"></nav>
+<br><br><br>
+
+
+	<div class="container">
+		<div class="row">
+			<!-- Botón de nuevo-->
+			<div class="col-md-offset-10 col-md-2" style="margin-bottom: 20px;">
+				<a th:href="@{/app/misproducto/nuevo}" class="btn btn-lg btn-info">Nuevo producto</a>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-4" th:each="producto : ${misproductos}">
+
+				<div class="panel panel-default panel-producto">
+					<div class="panel-heading">
+						<!-- Producto-->
+						<span th:text="${producto.nombre}">NOMBRE DEL PRODUCTO</span>
+						<!-- Esquinita de borrar -->
+						<a
+							th:if="${producto.compra == null}" data-toggle="modal"
+							data-target="#delete-modal" th:data-id="${producto.id}"
+							class="close" aria-label="close">&times;</a>
+					</div>
+					<div class="panel-body">
+						<!-- Imagen -->
+							<img th:src="${#strings.isEmpty(producto.imagen)} ? 'http://placehold.it/350x260' : ${producto.imagen}"
+									class="img-responsive center-block" alt="Image" style="height: 300px;">
+
+					</div>
+					<div class="panel-footer">
+						<div class="row">
+							<div class="col-md-4 precio">
+								<!-- Precio-->
+								<span class="precio"
+									th:text="${#numbers.formatCurrency(producto.precio)}"></span>
+							</div>
+
+							<div class="col-md-4">
+								<!-- Estado -->
+								<h4>
+								<span th:if="${producto.compra != null} "
+									  class="label label-success">Vendido</span> <span
+									th:unless="${producto.compra != null} "
+									class="label label-info">Sin vender</span>
+								</h4>
+							</div>
+
+
+
+							<div class="col-md-4">
+
+								<h4>
+									<!-- Editar -->
+									<a href th:href="@{/app/misproductos/editar/{id}(id=${producto.id})}">
+									<span th:if="${producto.compra == null} "
+										class="label label-warning">Editar</span>
+									</a>
+								</h4>
+
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+	<br>
+	<br>
+
+	<!-- 							 
+ -->
+	<div class="modal fade" id="delete-modal" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title">Borrar producto</h4>
+				</div>
+				<div class="modal-body">
+					<p>¿Está usted seguro de borrar este producto?</p>
+					<button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+					<a href="#" class="btn btn-danger">Sí</a>
+				</div>
+			</div>
+
+		</div>
+	</div>
+<br>
+<br>
+<!-- Footer -->
+<footer th:insert="fragments/footer :: footer" class="navbar-inverse navbar-fixed-bottom"></footer>
+
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"
+		th:src="@{/webjars/jquery/jquery.min.js}"></script>
+	<script
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+		th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('#delete-modal').on('show.bs.modal', function(event) {
+				var button = $(event.relatedTarget);
+				var data = button.data('id');
+
+				var modal = $(this);
+
+				var a = modal.find('.modal-body a')[0];
+				a.href = '/app/misproductos/eliminar/' + data;
+				
+
+			});
+		});
+	</script>
+
+
+
+</body>
+</html>

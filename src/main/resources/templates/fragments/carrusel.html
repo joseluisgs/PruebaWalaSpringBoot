@@ -1,0 +1,61 @@
+<!-- Fragment de Container que se verá en tiempo de ejecución -->
+<!-- La barra la fijamos-->
+<div th:fragment="carrusel" class="container" xmlns:th="http://www.w3.org/1999/xhtml">
+    <br><br><br>
+    <div class="row">
+        <div class="col-md-12">
+            <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+                <ol class="carousel-indicators">
+                    <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+                    <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+                    <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+
+                </ol>
+                <div class="carousel-inner">
+                    <div class="item active">
+                        <img src="" th:src="@{/images/slider02.jpg}" alt="First slide">
+                        <div class="carousel-caption">
+                            <h3>Tu tienda de compra-venta.</h3>
+                            <p>Vende lo que no necesites, compra lo que quieras.</p>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <img src="" th:src="@{/images/slider01.jpg}" alt="First slide">
+                        <div class="carousel-caption">
+                            <h3>En tu casa en menos de 24 horas.</h3>
+                            <p>Símplemente compra y lo disfrutas al día siguiente.</p>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <img src="" th:src="@{/images/slider03.jpg}" alt="First slide">
+                        <div class="carousel-caption">
+                            <h3>Entra y compra ya.</h3>
+                            <p>Estas a solo un clic</p>
+                            <p>
+                            <div class="">
+                                <a class="btn btn-clear btn-sm btn-min-block" href="#" th:href="@{/auth/login}">Login</a>
+                                <a class="btn btn-clear btn-sm btn-min-block" href="#" th:href="@{/auth/login}">Registro</a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+                    <span class="glyphicon glyphicon-chevron-left"></span></a><a class="right carousel-control"
+                                                                                 href="#carousel-example-generic" data-slide="next"><span class="glyphicon glyphicon-chevron-right">
+                        </span></a>
+            </div>
+            <div class="main-text hidden-xs">
+                <div class="col-md-12 text-center">
+                    <h1>Wala Spring Boot</h1>
+                    <h3>Tu tienda de confianza. </h3>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+        <h1 class="display-4">Destacados</h1>
+        <p class="lead">Productos destacados de la semana.</p>
+    </div>
+    <br><br>
+</div>

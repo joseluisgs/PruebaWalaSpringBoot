@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<!-- Plantilla de cabecera, misma idea que el resto, mirar navbar y pie-->
+<head th:insert="fragments/head :: head" ></head>
+
+<body>
+
+<!-- Barra de navegacion -->
+<nav  th:replace="fragments/navbar :: navbar" class="navbar navbar-inverse navbar-fixed-top"></nav>
+<br><br><br>
+
+<!-- Cuerpo de la página -->
+	<div class="container">
+		<div class="row" th:if="${#lists.isEmpty(mis_compras)}">
+		<div class="col-md-offset-1 col-md-10">
+				<div class="jumbotron">
+					<div class="container">
+						<h2 class="text-center">Aún no ha seleccionado ningún producto para comprar</h2>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row" th:unless="${#lists.isEmpty(mis_compras)}">
+			<div class="col-md-offset-4 col-md-4">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<td><strong>ID</strong></td>
+						<td><strong>Fecha</strong></td>
+						<td></td>
+						<td></td>
+					</tr>
+				</thead>
+				<tbody>
+				<!-- Para cada compra -->
+					<tr th:each="compra : ${mis_compras}">
+						<td><span th:text="${compra.id}">1</span>
+						<td><span th:text="${#dates.format(compra.fechaCompra,'dd/MMM/yyyy HH:mm')}">10/10/2018 10:10</span></td>
+						<!-- Muestro la factura en HTML -->
+						<td><a th:href="@{/app/miscompras/factura/{id}(id=${compra.id})}" class="btn btn-info">Ver</a></td>
+						<!-- Muestro la factura en PDF con versión itex-->
+						<!--<td><a th:href="@{/app/compra/factura/pdf/{id}(id=${compra.id})}" class="btn btn-default">Descargar</a></td>-->
+						<!-- Muestro la factura en PDF con mi servicio de facturas-->
+						<td><a th:href="@{/app/miscompras/pdf/factura/{id}(id=${compra.id})}" class="btn btn-default">Descargar</a></td>
+					</tr>
+				</tbody>
+			</table>
+			
+			
+			</div>
+		</div>
+	</div>
+	<br>
+	<br>
+	<!-- Footer -->
+	<footer th:insert="fragments/footer :: footer" class="navbar-inverse navbar-fixed-bottom"></footer>
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"
+		th:src="@{/webjars/jquery/jquery.min.js}"></script>
+	<script
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+		th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,23 @@
+<!-- Fragment de HEAD que se verá en tiempo de ejecución -->
+<!-- La barra la fijamos-->
+<head th:fragment="head" lang="es" xmlns:th="http://www.w3.org/1999/xhtml">
+    <title>Wala SpringBoot 1.0</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Estilos caragos desde el webjars y static styles-->
+    <link rel="icon" type="image/png" href='favicon.png'>
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+    <!-- <link rel="stylesheet" href="/css/styles.css" th:href="@{static}"> -->
+    <link href="/css/styles.css" rel="stylesheet" type="text/css" />
+
+    <!-- Para cambiar el fondo -->
+    <style th:inline="text">
+        body{
+            background: url([[@{/images/fondo.jpg}]])
+            no-repeat center center fixed;
+        }
+    </style>
+
+</head>

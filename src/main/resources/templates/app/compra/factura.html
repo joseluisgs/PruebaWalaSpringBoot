@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<!-- Plantilla de cabecera, misma idea que el resto, mirar navbar y pie-->
+<head th:insert="fragments/head :: head" ></head>
+
+<body>
+
+<!-- Barra de navegacion -->
+<nav  th:replace="fragments/navbar :: navbar" class="navbar navbar-inverse navbar-fixed-top"></nav>
+<br><br><br>
+
+<!-- Cuerpo de la página -->
+
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-offset-3 col-xs-6">
+				<div class="invoice-title">
+					<h2>Factura</h2>
+					<h3 class="pull-right">
+						Compra #<span th:text="${compra.id}">1234</span>
+					</h3>
+				</div>
+				<hr>
+				<div class="row">
+					<div class="col-xs-6">
+						<address>
+							<strong>Comprado por:</strong><br> <span
+								th:text="${compra.propietario.nombre + ' ' + compra.propietario.apellidos}"></span><br>
+							<span th:text="${compra.propietario.email}">Fulano</span><br>
+						</address>
+					</div>
+					<div class="col-xs-6 text-right">
+						<address>
+							<!-- Fromato de la fecha -->
+							<strong>Fecha de compra:</strong><br> <span
+								th:text="${#dates.format(compra.fechaCompra,'dd/MMM/yyyy HH:mm')}">10/10/2018 10:10</span><br>
+							<br>
+						</address>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-offset-3 col-md-6">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h3 class="panel-title">
+							<strong>Listado de productos</strong>
+						</h3>
+					</div>
+					<div class="panel-body invoice-body">
+						<div class="table-responsive">
+							<table class="table table-condensed">
+								<thead>
+									<tr>
+										<td><strong>Producto</strong></td>
+										<td class="text-right"><strong>Precio</strong></td>
+									</tr>
+								</thead>
+								<tbody>									
+									<tr th:each="producto : ${productos}">
+										<td><span th:text="${producto.nombre}">Producto</span></td>
+										<td class="text-right"><span th:text="${#numbers.formatCurrency(producto.precio)}">123€</span></td>
+									</tr>
+									<tr>
+										<td class="thick-line text-right"><strong>Total</strong></td>
+										<td class="thick-line text-right"><span
+											th:text="${#numbers.formatCurrency(total_compra)}">123€</span></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<br>
+	<br>
+<!-- Footer -->
+<footer th:insert="fragments/footer :: footer" class="navbar-inverse navbar-fixed-bottom"></footer>
+
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"
+		th:src="@{/webjars/jquery/jquery.min.js}"></script>
+	<script
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+		th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+
+
+
+
+</body>
+</html>
