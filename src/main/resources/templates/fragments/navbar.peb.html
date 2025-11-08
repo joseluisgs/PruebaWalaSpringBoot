@@ -95,5 +95,6 @@
 
 {% if isAuthenticated %}
 <form action="/auth/logout" id="logoutForm" method="post" style="display: none;">
+    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 </form>
 {% endif %}
