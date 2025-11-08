@@ -142,6 +142,18 @@ public class PurchaseController {
 
     }
 
+    // Mostrar confirmación antes de finalizar compra
+    @GetMapping("/carrito/comprar")
+    public String confirmarCompra(Model model) {
+        // Recuperamos el carrito
+        List<Long> contenido = (List<Long>) session.getAttribute("carrito");
+        if (contenido == null || contenido.isEmpty())
+            return "redirect:/public";
+        
+        // Los productos ya están en el modelo via @ModelAttribute
+        return "/app/compra/confirmar";
+    }
+
     // Finaliza una compra
     @GetMapping("/carrito/finalizar")
     public String checkout() {
