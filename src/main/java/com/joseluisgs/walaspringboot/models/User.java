@@ -17,7 +17,7 @@ import java.util.Objects;
 
 @Entity
 @EntityListeners(AuditingEntityListener.class)
-public class Usuario implements UserDetails {
+public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
@@ -42,10 +42,10 @@ public class Usuario implements UserDetails {
     @NotEmpty
     private String rol = "USER"; // Por defecto USER, puede ser ADMIN, USER, MODERATOR
 
-    public Usuario() {
+    public User() {
     }
 
-    public Usuario(String nombre, String apellidos, String avatar, String email, String password) {
+    public User(String nombre, String apellidos, String avatar, String email, String password) {
         this.nombre = nombre;
         this.apellidos = apellidos;
         this.avatar = avatar;
@@ -54,7 +54,7 @@ public class Usuario implements UserDetails {
         this.rol = "USER";
     }
 
-    public Usuario(String nombre, String apellidos, String avatar, String email, String password, String rol) {
+    public User(String nombre, String apellidos, String avatar, String email, String password, String rol) {
         this.nombre = nombre;
         this.apellidos = apellidos;
         this.avatar = avatar;
@@ -131,7 +131,7 @@ public class Usuario implements UserDetails {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Usuario usuario = (Usuario) o;
+        User usuario = (User) o;
         return id == usuario.id &&
                 Objects.equals(nombre, usuario.nombre) &&
                 Objects.equals(apellidos, usuario.apellidos) &&
@@ -148,7 +148,7 @@ public class Usuario implements UserDetails {
 
     @Override
     public String toString() {
-        return "Usuario{" +
+        return "User{" +
                 "id=" + id +
                 ", nombre='" + nombre + '\'' +
                 ", apellidos='" + apellidos + '\'' +

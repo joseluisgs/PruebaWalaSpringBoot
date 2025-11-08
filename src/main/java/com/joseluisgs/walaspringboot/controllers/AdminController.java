@@ -1,8 +1,8 @@
 package com.joseluisgs.walaspringboot.controllers;
 
-import com.joseluisgs.walaspringboot.services.CompraServicio;
-import com.joseluisgs.walaspringboot.services.ProductoServicio;
-import com.joseluisgs.walaspringboot.services.UsuarioServicio;
+import com.joseluisgs.walaspringboot.services.PurchaseService;
+import com.joseluisgs.walaspringboot.services.ProductService;
+import com.joseluisgs.walaspringboot.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -16,13 +16,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class AdminController {
 
     @Autowired
-    private ProductoServicio productoServicio;
+    private ProductService productoServicio;
 
     @Autowired
-    private UsuarioServicio usuarioServicio;
+    private UserService usuarioServicio;
 
     @Autowired
-    private CompraServicio compraServicio;
+    private PurchaseService compraServicio;
 
     @GetMapping("/dashboard")
     public String dashboard(Model model) {

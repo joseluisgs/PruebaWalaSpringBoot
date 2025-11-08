@@ -1,7 +1,7 @@
 package com.joseluisgs.walaspringboot.controllers;
 
-import com.joseluisgs.walaspringboot.models.Producto;
-import com.joseluisgs.walaspringboot.services.ProductoServicio;
+import com.joseluisgs.walaspringboot.models.Product;
+import com.joseluisgs.walaspringboot.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,11 +16,11 @@ public class ZonaPublicaController {
 
     // Vamos a usar el servicio de producto
     @Autowired
-    ProductoServicio productoServicio;
+    ProductService productoServicio;
 
     // De esta manera siempre tenemos los productos no vendidos
     @ModelAttribute("productos")
-    public List<Producto> productosNoVendidos() {
+    public List<Product> productosNoVendidos() {
         return productoServicio.productosSinVender();
     }
 
@@ -33,7 +33,7 @@ public class ZonaPublicaController {
                        @RequestParam(name="minPrecio", required=false) Float minPrecio,
                        @RequestParam(name="maxPrecio", required=false) Float maxPrecio) {
         
-        List<Producto> productos = productoServicio.productosSinVender();
+        List<Product> productos = productoServicio.productosSinVender();
         
         // Aplicar filtros
         if (query != null && !query.trim().isEmpty()) {
@@ -73,7 +73,7 @@ public class ZonaPublicaController {
     @GetMapping("/producto/{id}")
     public String showProduct(Model model, @PathVariable Long id) {
         //Buscamos pro id
-        Producto result = productoServicio.findById(id);
+        Product result = productoServicio.findById(id);
         if (result != null) {
             // Si lo encotramos lo añadimos al modelo y se lo pasamos
             model.addAttribute("producto", result);

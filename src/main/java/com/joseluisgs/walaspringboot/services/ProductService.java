@@ -1,9 +1,9 @@
 package com.joseluisgs.walaspringboot.services;
 
-import com.joseluisgs.walaspringboot.models.Compra;
-import com.joseluisgs.walaspringboot.models.Producto;
-import com.joseluisgs.walaspringboot.models.Usuario;
-import com.joseluisgs.walaspringboot.repositories.ProductoRepository;
+import com.joseluisgs.walaspringboot.models.Purchase;
+import com.joseluisgs.walaspringboot.models.Product;
+import com.joseluisgs.walaspringboot.models.User;
+import com.joseluisgs.walaspringboot.repositories.ProductRepository;
 import com.joseluisgs.walaspringboot.storage.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
@@ -13,15 +13,15 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class ProductoServicio {
+public class ProductService {
     @Autowired
-    ProductoRepository repositorio;
+    ProductRepository repositorio;
 
     @Autowired
     StorageService storageService;
 
     @CacheEvict(value = "productos", allEntries = true)
-    public Producto insertar(Producto p) {
+    public Product insertar(Product p) {
         return repositorio.save(p);
     }
 
@@ -31,51 +31,51 @@ public class ProductoServicio {
     }
 
     @CacheEvict(value = "productos", allEntries = true)
-    public void borrar(Producto p) {
+    public void borrar(Product p) {
         if (!p.getImagen().isEmpty())
              storageService.delete(p.getImagen());
         repositorio.delete(p);
     }
 
     @CacheEvict(value = "productos", allEntries = true)
-    public Producto editar(Producto p) {
+    public Product editar(Product p) {
         return repositorio.save(p);
     }
 
     @Cacheable(value = "productos", key = "#id")
-    public Producto findById(long id) {
+    public Product findById(long id) {
         return repositorio.findById(id).orElse(null);
     }
 
     @Cacheable(value = "productos")
-    public List<Producto> findAll() {
+    public List<Product> findAll() {
         return repositorio.findAll();
     }
 
     @Cacheable(value = "productos", key = "'usuario_' + #u.id")
-    public List<Producto> productosDeUnPropietario(Usuario u) {
+    public List<Product> productosDeUnPropietario(User u) {
         return repositorio.findByPropietario(u);
     }
 
     @Cacheable(value = "productos", key = "'compra_' + #c.id")
-    public List<Producto> productosDeUnaCompra(Compra c) {
+    public List<Product> productosDeUnaCompra(Purchase c) {
         return repositorio.findByCompra(c);
     }
 
     @Cacheable(value = "productos", key = "'sinvender'")
-    public List<Producto> productosSinVender() {
+    public List<Product> productosSinVender() {
         return repositorio.findByCompraIsNull();
     }
 
-    public List<Producto> buscar(String query) {
+    public List<Product> buscar(String query) {
         return repositorio.findByNombreContainsIgnoreCaseAndCompraIsNull(query);
     }
 
-    public List<Producto> buscarMisProductos(String query, Usuario u) {
+    public List<Product> buscarMisProductos(String query, User u) {
         return repositorio.findByNombreContainsIgnoreCaseAndPropietario(query,u);
     }
 
-    public List<Producto> variosPorId(List<Long> ids) {
+    public List<Product> variosPorId(List<Long> ids) {
         return repositorio.findAllById(ids);
     }
 }

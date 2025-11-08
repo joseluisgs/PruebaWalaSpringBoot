@@ -9,7 +9,7 @@ import java.util.Objects;
 
 @Entity
 @EntityListeners(AuditingEntityListener.class)
-public class Compra {
+public class Purchase {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
@@ -19,12 +19,12 @@ public class Compra {
     private Date fechaCompra;
 
     @ManyToOne
-    private Usuario propietario;
+    private User propietario;
 
-    public Compra() {
+    public Purchase() {
     }
 
-    public Compra(Usuario propietario) {
+    public Purchase(User propietario) {
         this.propietario = propietario;
     }
 
@@ -44,11 +44,11 @@ public class Compra {
         this.fechaCompra = fechaCompra;
     }
 
-    public Usuario getPropietario() {
+    public User getPropietario() {
         return propietario;
     }
 
-    public void setPropietario(Usuario propietario) {
+    public void setPropietario(User propietario) {
         this.propietario = propietario;
     }
 
@@ -56,7 +56,7 @@ public class Compra {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Compra compra = (Compra) o;
+        Purchase compra = (Purchase) o;
         return id == compra.id &&
                 Objects.equals(fechaCompra, compra.fechaCompra) &&
                 Objects.equals(propietario, compra.propietario);
@@ -69,7 +69,7 @@ public class Compra {
 
     @Override
     public String toString() {
-        return "Compra{" +
+        return "Purchase{" +
                 "id=" + id +
                 ", fechaCompra=" + fechaCompra +
                 ", propietario=" + propietario +

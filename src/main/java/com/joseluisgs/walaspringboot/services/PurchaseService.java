@@ -1,9 +1,9 @@
 package com.joseluisgs.walaspringboot.services;
 
-import com.joseluisgs.walaspringboot.models.Compra;
-import com.joseluisgs.walaspringboot.models.Producto;
-import com.joseluisgs.walaspringboot.models.Usuario;
-import com.joseluisgs.walaspringboot.repositories.CompraRepository;
+import com.joseluisgs.walaspringboot.models.Purchase;
+import com.joseluisgs.walaspringboot.models.Product;
+import com.joseluisgs.walaspringboot.models.User;
+import com.joseluisgs.walaspringboot.repositories.PurchaseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -12,47 +12,47 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class CompraServicio {
+public class PurchaseService {
 
     @Autowired
-    CompraRepository repositorio;
+    PurchaseRepository repositorio;
 
     @Autowired
-    ProductoServicio productoServicio;
+    ProductService productoServicio;
 
     @CacheEvict(value = "compras", allEntries = true)
-    public Compra insertar(Compra c, Usuario u) {
+    public Purchase insertar(Purchase c, User u) {
         c.setPropietario(u);
         return repositorio.save(c);
     }
 
     @CacheEvict(value = "compras", allEntries = true)
-    public Compra insertar(Compra c) {
+    public Purchase insertar(Purchase c) {
         return repositorio.save(c);
     }
 
-    public Producto addProductoCompra(Producto p, Compra c) {
+    public Product addProductoCompra(Product p, Purchase c) {
         p.setCompra(c);
         return productoServicio.editar(p);
     }
 
     @Cacheable(value = "compras", key = "#id")
-    public Compra buscarPorId(long id) {
+    public Purchase buscarPorId(long id) {
         return repositorio.findById(id).orElse(null);
     }
 
     @Cacheable(value = "compras")
-    public List<Compra> todas() {
+    public List<Purchase> todas() {
         return repositorio.findAll();
     }
 
     @Cacheable(value = "compras", key = "'usuario_' + #u.id")
-    public List<Compra> porPropietario(Usuario u) {
+    public List<Purchase> porPropietario(User u) {
         return repositorio.findByPropietario(u);
     }
 
     @Cacheable(value = "compras")
-    public List<Compra> findAll() {
+    public List<Purchase> findAll() {
         return repositorio.findAll();
     }
 }

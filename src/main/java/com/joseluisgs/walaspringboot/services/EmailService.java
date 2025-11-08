@@ -1,8 +1,8 @@
 package com.joseluisgs.walaspringboot.services;
 
-import com.joseluisgs.walaspringboot.models.Compra;
-import com.joseluisgs.walaspringboot.models.Producto;
-import com.joseluisgs.walaspringboot.repositories.ProductoRepository;
+import com.joseluisgs.walaspringboot.models.Purchase;
+import com.joseluisgs.walaspringboot.models.Product;
+import com.joseluisgs.walaspringboot.repositories.ProductRepository;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import org.slf4j.Logger;
@@ -30,12 +30,12 @@ public class EmailService {
     private MessageSource messageSource;
 
     @Autowired
-    private ProductoRepository productoRepository;
+    private ProductRepository productoRepository;
 
     @Value("${spring.mail.username}")
     private String fromEmail;
 
-    public void enviarEmailConfirmacionCompra(Compra compra) {
+    public void enviarEmailConfirmacionCompra(Purchase compra) {
         try {
             MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
@@ -58,7 +58,7 @@ public class EmailService {
         }
     }
 
-    private String construirEmailHTML(Compra compra, Locale locale) {
+    private String construirEmailHTML(Purchase compra, Locale locale) {
         StringBuilder html = new StringBuilder();
         html.append("<!DOCTYPE html>");
         html.append("<html lang='").append(locale.getLanguage()).append("'>");
@@ -96,10 +96,10 @@ public class EmailService {
         html.append("<h3>").append(messageSource.getMessage("email.purchase.products", null, locale)).append("</h3>");
         
         // Obtener productos de la compra
-        List<Producto> productos = productoRepository.findByCompra(compra);
+        List<Product> productos = productoRepository.findByCompra(compra);
         float total = 0;
         
-        for (Producto producto : productos) {
+        for (Product producto : productos) {
             html.append("<div class='product'>");
             html.append("<div class='product-name'>").append(producto.getNombre()).append("</div>");
             html.append("<div class='product-price'>").append(String.format("%.2f €", producto.getPrecio())).append("</div>");

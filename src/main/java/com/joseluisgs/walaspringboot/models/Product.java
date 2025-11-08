@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotEmpty;
 import java.util.Objects;
 
 @Entity
-public class Producto {
+public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
@@ -25,22 +25,22 @@ public class Producto {
     private String categoria;
 
     @ManyToOne
-    private Usuario propietario;
+    private User propietario;
 
     @ManyToOne
-    private Compra compra;
+    private Purchase compra;
 
-    public Producto() {
+    public Product() {
     }
 
-    public Producto(String nombre, float precio, String imagen, Usuario propietario) {
+    public Product(String nombre, float precio, String imagen, User propietario) {
         this.nombre = nombre;
         this.precio = precio;
         this.imagen = imagen;
         this.propietario = propietario;
     }
 
-    public Producto(String nombre, float precio, String imagen, String descripcion, String categoria, Usuario propietario) {
+    public Product(String nombre, float precio, String imagen, String descripcion, String categoria, User propietario) {
         this.nombre = nombre;
         this.precio = precio;
         this.imagen = imagen;
@@ -81,19 +81,19 @@ public class Producto {
         this.imagen = imagen;
     }
 
-    public Usuario getPropietario() {
+    public User getPropietario() {
         return propietario;
     }
 
-    public void setPropietario(Usuario propietario) {
+    public void setPropietario(User propietario) {
         this.propietario = propietario;
     }
 
-    public Compra getCompra() {
+    public Purchase getCompra() {
         return compra;
     }
 
-    public void setCompra(Compra compra) {
+    public void setCompra(Purchase compra) {
         this.compra = compra;
     }
 
@@ -117,7 +117,7 @@ public class Producto {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Producto producto = (Producto) o;
+        Product producto = (Product) o;
         return id == producto.id &&
                 Float.compare(producto.precio, precio) == 0 &&
                 Objects.equals(nombre, producto.nombre) &&
@@ -133,7 +133,7 @@ public class Producto {
 
     @Override
     public String toString() {
-        return "Producto{" +
+        return "Product{" +
                 "id=" + id +
                 ", nombre='" + nombre + '\'' +
                 ", precio=" + precio +

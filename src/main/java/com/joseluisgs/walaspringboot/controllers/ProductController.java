@@ -1,9 +1,9 @@
 package com.joseluisgs.walaspringboot.controllers;
 
-import com.joseluisgs.walaspringboot.models.Producto;
-import com.joseluisgs.walaspringboot.models.Usuario;
-import com.joseluisgs.walaspringboot.services.ProductoServicio;
-import com.joseluisgs.walaspringboot.services.UsuarioServicio;
+import com.joseluisgs.walaspringboot.models.Product;
+import com.joseluisgs.walaspringboot.models.User;
+import com.joseluisgs.walaspringboot.services.ProductService;
+import com.joseluisgs.walaspringboot.services.UserService;
 import com.joseluisgs.walaspringboot.storage.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,17 +20,17 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/app") // Ruta por defecto
-public class ProductoController {
+public class ProductController {
 
     // Servicio de producto
     @Autowired
-    ProductoServicio productoServicio;
+    ProductService productoServicio;
 
     // Servicio de usuario
     @Autowired
-    UsuarioServicio usuarioServicio;
+    UserService usuarioServicio;
 
-    private Usuario usuario;
+    private User usuario;
 
     // Servicio de almacenamiento
     @Autowired
@@ -38,7 +38,7 @@ public class ProductoController {
 
     // Inyectamos en el modelo automáticamente la lista de mis productos
     @ModelAttribute("misproductos")
-    public List<Producto> misProductos() {
+    public List<Product> misProductos() {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         usuario = usuarioServicio.buscarPorEmail(email);
         return productoServicio.productosDeUnPropietario(usuario);
@@ -57,7 +57,7 @@ public class ProductoController {
     @GetMapping("/misproductos/eliminar/{id}")
     public String eliminar(@PathVariable Long id) {
         // Buscamos el producto
-        Producto p = productoServicio.findById(id);
+        Product p = productoServicio.findById(id);
         // Lo borramos si no tiene ninguan compra asociada
         if (p.getCompra() == null)
             // Lo borramos, la imagen se borra en el servicio
@@ -69,12 +69,12 @@ public class ProductoController {
     @GetMapping("/misproducto/nuevo")
     public String nuevoProductoForm(Model model) {
         // Lo insertamos en el modelo
-        model.addAttribute("producto", new Producto());
+        model.addAttribute("producto", new Product());
         return "app/producto/ficha";
     }
 
     @PostMapping("/misproducto/nuevo/submit")
-    public String nuevoProductoSubmit(@Valid @ModelAttribute Producto producto,
+    public String nuevoProductoSubmit(@Valid @ModelAttribute Product producto,
                                       @RequestParam("file") MultipartFile file,
                                       BindingResult bindingResult) {
 
@@ -100,7 +100,7 @@ public class ProductoController {
     @GetMapping("/misproductos/editar/{id}")
     public String eliminar(@PathVariable Long id, Model model) {
         // Buscamos el producto
-        Producto p = productoServicio.findById(id);
+        Product p = productoServicio.findById(id);
         if (p != null) {
             model.addAttribute("producto", p);
             return "app/producto/ficha";
@@ -110,7 +110,7 @@ public class ProductoController {
     }
 
     @PostMapping("/misproductos/editar/submit")
-    public String editarEmpleadoSubmit(@Valid @ModelAttribute("producto") Producto actualProducto,
+    public String editarEmpleadoSubmit(@Valid @ModelAttribute("producto") Product actualProducto,
                                        @RequestParam("file") MultipartFile file,
                                         BindingResult bindingResult) {
         // Si no tiene errores
@@ -118,7 +118,7 @@ public class ProductoController {
             return "app/producto/ficha";
         } else {
             // Lo que tenga que hacer, buscamos el antiguo producto para sacar los datos
-            Producto p = productoServicio.findById(actualProducto.getId());
+            Product p = productoServicio.findById(actualProducto.getId());
             // Obtenemos el usuario
             // Porque es el único campo que no le hemos podido pasar al formulario
             actualProducto.setPropietario(p.getPropietario());

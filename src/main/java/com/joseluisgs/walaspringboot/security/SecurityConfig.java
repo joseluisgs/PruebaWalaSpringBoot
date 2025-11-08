@@ -16,7 +16,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity(prePostEnabled = true, securedEnabled = true)
-public class SeguridadConfig {
+public class SecurityConfig {
 
     @Autowired
     UserDetailsService userDetailsService;

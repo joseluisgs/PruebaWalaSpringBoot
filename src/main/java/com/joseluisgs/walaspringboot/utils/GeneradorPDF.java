@@ -3,8 +3,8 @@ package com.joseluisgs.walaspringboot.utils;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
-import com.joseluisgs.walaspringboot.models.Compra;
-import com.joseluisgs.walaspringboot.models.Producto;
+import com.joseluisgs.walaspringboot.models.Purchase;
+import com.joseluisgs.walaspringboot.models.Product;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -23,7 +23,7 @@ public class GeneradorPDF {
      * @param total
      * @return
      */
-    public static ByteArrayInputStream factura2PDF(Compra compra, List<Producto> productos, Double total) {
+    public static ByteArrayInputStream factura2PDF(Purchase compra, List<Product> productos, Double total) {
         Document documento = new Document();
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         try {
@@ -42,9 +42,9 @@ public class GeneradorPDF {
             documento.add(new Paragraph(""));
 
             PdfPTable tabla = new PdfPTable(2);
-            tabla.addCell("Producto");
+            tabla.addCell("Product");
             tabla.addCell("Precio");
-            for (Producto producto : productos) {
+            for (Product producto : productos) {
                 tabla.addCell(producto.getNombre());
                 tabla.addCell(Float.toString(producto.getPrecio()) + " €");
             }

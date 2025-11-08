@@ -1,11 +1,11 @@
 package com.joseluisgs.walaspringboot.controllers;
 
-import com.joseluisgs.walaspringboot.models.Compra;
-import com.joseluisgs.walaspringboot.models.Producto;
-import com.joseluisgs.walaspringboot.models.Usuario;
-import com.joseluisgs.walaspringboot.services.CompraServicio;
-import com.joseluisgs.walaspringboot.services.ProductoServicio;
-import com.joseluisgs.walaspringboot.services.UsuarioServicio;
+import com.joseluisgs.walaspringboot.models.Purchase;
+import com.joseluisgs.walaspringboot.models.Product;
+import com.joseluisgs.walaspringboot.models.User;
+import com.joseluisgs.walaspringboot.services.PurchaseService;
+import com.joseluisgs.walaspringboot.services.ProductService;
+import com.joseluisgs.walaspringboot.services.UserService;
 import com.joseluisgs.walaspringboot.utils.GeneradorPDF;
 import com.joseluisgs.walaspringboot.utils.Html2PdfService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,19 +25,19 @@ import java.util.*;
 
 @Controller
 @RequestMapping("/app") // Ruta por defecto base donde vamos a escuchar
-public class CompraController {
+public class PurchaseController {
     // Necesitamos los siguientes servicios
     // Para manejar la compra
     @Autowired
-    CompraServicio compraServicio;
+    PurchaseService compraServicio;
 
     // Para manejar los productos
     @Autowired
-    ProductoServicio productoServicio;
+    ProductService productoServicio;
 
     // Para los usuarios
     @Autowired
-    UsuarioServicio usuarioServicio;
+    UserService usuarioServicio;
 
     // Para las sesiones
     @Autowired
@@ -50,12 +50,12 @@ public class CompraController {
 
 
     // Para mapear el usuario identificado con lo que tenemos almacenado
-    private Usuario usuario;
+    private User usuario;
 
     // Los metodos etiquetados como ModelAtribute, pornen en el modelo el resultado de realizar esta operación
     // Luego lo podremos recuperar en la vista
     @ModelAttribute("carrito")
-    public List<Producto> productosCarrito() {
+    public List<Product> productosCarrito() {
         // Obtengo una lista de id alacenados en la sesión como carrito
         List<Long> contenido = (List<Long>) session.getAttribute("carrito");
         // Devulevo la lista de productos que tienen la id almacenada en la sesion
@@ -65,7 +65,7 @@ public class CompraController {
     // Calcula el total del carrito
     @ModelAttribute("total_carrito")
     public Double totalCarrito() {
-        List<Producto> productosCarrito = productosCarrito(); // Aqui tenemos un ejemplo de como modelar
+        List<Product> productosCarrito = productosCarrito(); // Aqui tenemos un ejemplo de como modelar
         if (productosCarrito != null)
             return productosCarrito.stream()
                     .mapToDouble(p -> p.getPrecio())
@@ -79,7 +79,7 @@ public class CompraController {
     // Lo mostraré en navbar de las dos maneras
     @ModelAttribute("items_carrito")
     public String itemsCarrito() {
-        List<Producto> productosCarrito = productosCarrito(); // Aqui tenemos un ejemplo de como modelar
+        List<Product> productosCarrito = productosCarrito(); // Aqui tenemos un ejemplo de como modelar
         if (productosCarrito != null)
             return Integer.toString(productosCarrito.size());
         return "";
@@ -87,7 +87,7 @@ public class CompraController {
 
     // Muestro las compras asociadas al email que se ha registrado en la sesión
     @ModelAttribute("mis_compras")
-    public List<Compra> misCompras() {
+    public List<Purchase> misCompras() {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         usuario = usuarioServicio.buscarPorEmail(email);
         return compraServicio.porPropietario(usuario);
@@ -151,9 +151,9 @@ public class CompraController {
             return "redirect:/public";
 
         // Obtenemos la lista de productos
-        List<Producto> productos = productosCarrito();
+        List<Product> productos = productosCarrito();
         // Los insertamos en la compra
-        Compra c = compraServicio.insertar(new Compra(), usuario);
+        Purchase c = compraServicio.insertar(new Purchase(), usuario);
         // Sitaxis de java nueva por cada producto p, ejecutamos compra servicio y asociamos p a la compra c
         productos.forEach(p -> compraServicio.addProductoCompra(p, c));
         // Elimanos de la sesión el carrito
@@ -175,9 +175,9 @@ public class CompraController {
     @GetMapping("/miscompras/factura/{id}")
     public String factura(Model model, @PathVariable Long id) {
         // Recupero la compra mediante su ID
-        Compra c = compraServicio.buscarPorId(id);
+        Purchase c = compraServicio.buscarPorId(id);
         // Obtengo la lista de productos por su id asociados a la compra
-        List<Producto> productos = productoServicio.productosDeUnaCompra(c);
+        List<Product> productos = productoServicio.productosDeUnaCompra(c);
         // Los metemos en el modelo
         model.addAttribute("productos", productos);
         model.addAttribute("compra", c);
@@ -191,9 +191,9 @@ public class CompraController {
     @RequestMapping(value = "/miscompras/factura/pdf/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_PDF_VALUE)
     public ResponseEntity<InputStreamResource> facturaPDF(@PathVariable Long id) {
         // Recupero la compra mediante su ID
-        Compra compra = compraServicio.buscarPorId(id);
+        Purchase compra = compraServicio.buscarPorId(id);
         // Obtengo la lista de productos por su id asociados a la compra
-        List<Producto> productos = productoServicio.productosDeUnaCompra(compra);
+        List<Product> productos = productoServicio.productosDeUnaCompra(compra);
         // Total de la compra
         Double total = productos.stream().mapToDouble(p -> p.getPrecio()).sum();
 
@@ -214,9 +214,9 @@ public class CompraController {
     public ResponseEntity facturaHTML2PDF(@PathVariable Long id) {
         // Cargamos los datos
         // Recupero la compra mediante su ID
-        Compra compra = compraServicio.buscarPorId(id);
+        Purchase compra = compraServicio.buscarPorId(id);
         // Obtengo la lista de productos por su id asociados a la compra
-        List<Producto> productos = productoServicio.productosDeUnaCompra(compra);
+        List<Product> productos = productoServicio.productosDeUnaCompra(compra);
         // Total de la compra
         Double total = productos.stream().mapToDouble(p -> p.getPrecio()).sum();
 

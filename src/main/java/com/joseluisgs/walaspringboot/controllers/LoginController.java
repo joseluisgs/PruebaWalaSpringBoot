@@ -1,7 +1,7 @@
 package com.joseluisgs.walaspringboot.controllers;
 
-import com.joseluisgs.walaspringboot.models.Usuario;
-import com.joseluisgs.walaspringboot.services.UsuarioServicio;
+import com.joseluisgs.walaspringboot.models.User;
+import com.joseluisgs.walaspringboot.services.UserService;
 import com.joseluisgs.walaspringboot.storage.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,7 +18,7 @@ public class LoginController {
 
     // Servicio de usuario
     @Autowired
-    UsuarioServicio usuarioServicio;
+    UserService usuarioServicio;
 
     // Servicio de almacenamiento
     @Autowired
@@ -35,7 +35,7 @@ public class LoginController {
 
     @GetMapping("/auth/login")
     public String login(Model model) {
-        model.addAttribute("usuario", new Usuario());
+        model.addAttribute("usuario", new User());
         return "login";
     }
 
@@ -43,7 +43,7 @@ public class LoginController {
 
     // Registro del usuario que obtenemos con ModelAttribute
     @PostMapping("/auth/register")
-    public String register(@ModelAttribute Usuario usuario , @RequestParam("file") MultipartFile file) {
+    public String register(@ModelAttribute User usuario , @RequestParam("file") MultipartFile file) {
         //Subida de imagenes más adelante
         if (!file.isEmpty()) {
             String imagen = storageService.store(file);
