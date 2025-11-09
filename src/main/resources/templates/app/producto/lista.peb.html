@@ -86,7 +86,7 @@
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <div class="d-flex flex-column">
                         <span>{{ producto.nombre }}</span>
-                        {% if producto.categoria %}
+                        {% if producto.categoria is not null %}
                         <span class="badge bg-info mt-1" style="width: fit-content;">{{ producto.categoria.emoji }} {{ producto.categoria.displayName }}</span>
                         {% endif %}
                     </div>
@@ -95,18 +95,9 @@
                             type="button"></button>
                     {% endif %}
                 </div>
-                {% if producto.imagen is not empty %}
-                {% if producto.imagen.startsWith('http') %}
-                <img alt="{{ producto.nombre }}" class="card-img-top" src="{{ producto.imagen }}"
+                <img alt="{{ producto.nombre }}" class="card-img-top" 
+                     src="{{ producto.imagenOrDefault }}"
                      style="height: 300px; object-fit: cover;">
-                {% else %}
-                <img alt="{{ producto.nombre }}" class="card-img-top" src="{{ producto.imagen }}"
-                     style="height: 300px; object-fit: cover;">
-                {% endif %}
-                {% else %}
-                <img alt="Imagen por defecto" class="card-img-top"
-                     src="https://cdn-icons-png.flaticon.com/512/5617/5617585.png" style="height: 300px; object-fit: cover;">
-                {% endif %}
                 <div class="card-footer bg-white">
                     <div class="row align-items-center">
                         <div class="col-4">

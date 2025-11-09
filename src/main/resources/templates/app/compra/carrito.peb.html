@@ -33,7 +33,7 @@
                         <tr>
                             <td>
                                 <div class="d-flex align-items-center">
-                                    <img src="{% if producto.imagen is empty %}https://placehold.it/150x150?text=SIN%20IMAGEN{% else %}{{ producto.imagen }}{% endif %}" 
+                                    <img src="{{ producto.imagenOrDefault }}" 
                                          class="rounded me-3" style="width: 150px; height: 150px; object-fit: cover;" alt="{{ producto.nombre }}">
                                     <div>
                                         <h5>{{ producto.nombre }}</h5>

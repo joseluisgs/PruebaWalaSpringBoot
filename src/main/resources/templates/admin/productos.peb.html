@@ -40,18 +40,14 @@
                     <tr>
                         <td>{{ producto.id }}</td>
                         <td>
-                            {% if producto.imagen is not empty %}
                             <img alt="{{ producto.nombre }}" class="rounded"
-                                 src="{{ producto.imagen }}" style="width: 50px; height: 50px; object-fit: cover;">
-                            {% else %}
-                            <img alt="{{ producto.nombre }}" class="rounded"
-                                 src="https://cdn-icons-png.flaticon.com/512/5617/5617585.png" style="width: 50px; height: 50px; object-fit: cover;">
-                            {% endif %}
+                                 src="{{ producto.imagenOrDefault }}" 
+                                 style="width: 50px; height: 50px; object-fit: cover;">
                         </td>
                         <td>{{ producto.nombre }}</td>
                         <td><strong>{{ producto.precio | formatPrice }}</strong></td>
                         <td>
-                            {% if producto.categoria %}
+                            {% if producto.categoria is not null %}
                             <span class="badge bg-info">{{ producto.categoria.emoji }} {{ producto.categoria.displayName }}</span>
                             {% else %}
                             <span class="badge bg-secondary">Sin categoría</span>
