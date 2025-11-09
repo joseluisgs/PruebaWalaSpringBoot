@@ -22,7 +22,7 @@
                     <select class="form-select" name="categoria">
                         <option value="">Todas las categorías</option>
                         {% for categoria in categorias %}
-                        <option value="{{ categoria.name }}" 
+                        <option value="{{ categoria.name }}"
                                 {% if categoriaActual == categoria.name %}selected{% endif %}>
                             {{ categoria.emoji }} {{ categoria.displayName }}
                         </option>
@@ -58,8 +58,8 @@
             <div class="card h-100 shadow-sm producto-card"
                  onclick="window.location='/public/producto/{{ producto.id }}';" style="cursor: pointer;">
                 <img alt="{{ producto.nombre }}"
-                     class="card-img-top" 
-                     src="{{ producto.imagenOrDefault }}" 
+                     class="card-img-top"
+                     src="{{ producto.imagenOrDefault }}"
                      style="height: 300px; object-fit: cover;">
                 <div class="card-body">
                     <h5 class="card-title">{{ producto.nombre }}</h5>
