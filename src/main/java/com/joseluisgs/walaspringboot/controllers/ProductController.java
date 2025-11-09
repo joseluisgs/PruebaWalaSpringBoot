@@ -55,13 +55,48 @@ public class ProductController {
 
     // Eliminamos el producto
     @GetMapping("/misproductos/eliminar/{id}")
-    public String eliminar(@PathVariable Long id) {
-        // Buscamos el producto
-        Product p = productoServicio.findById(id);
-        // Lo borramos si no tiene ninguan compra asociada
-        if (p.getCompra() == null)
-            // Lo borramos, la imagen se borra en el servicio
-            productoServicio.borrar(p);
+    public String eliminar(@PathVariable Long id, 
+                          org.springframework.web.servlet.mvc.support.RedirectAttributes redirectAttributes,
+                          org.springframework.security.core.Authentication auth) {
+        try {
+            // Buscamos el producto
+            Product producto = productoServicio.findById(id);
+            
+            if (producto == null) {
+                redirectAttributes.addFlashAttribute("error", "Producto no encontrado.");
+                return "redirect:/app/misproductos";
+            }
+            
+            // Verificar si el usuario es el propietario
+            String email = org.springframework.security.core.context.SecurityContextHolder.getContext().getAuthentication().getName();
+            User currentUser = usuarioServicio.buscarPorEmail(email);
+            if (!producto.getPropietario().equals(currentUser)) {
+                redirectAttributes.addFlashAttribute("error", 
+                    "No tiene permisos para eliminar este producto.");
+                return "redirect:/app/misproductos";
+            }
+            
+            // Verificar si ha sido vendido
+            if (productoServicio.hasBeenSold(producto)) {
+                redirectAttributes.addFlashAttribute("warning", 
+                    String.format("El producto '%s' ya ha sido vendido y no puede eliminarse. " +
+                    "Se ha marcado como no disponible para mantener la integridad de las ventas.", 
+                    producto.getNombre()));
+                
+                // Soft delete para productos vendidos
+                productoServicio.softDelete(id, auth.getName());
+            } else {
+                // Si no se ha vendido, permitir borrado físico
+                productoServicio.borrar(producto);
+                redirectAttributes.addFlashAttribute("success", 
+                    String.format("Producto '%s' eliminado correctamente.", producto.getNombre()));
+            }
+            
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", 
+                "Error al eliminar el producto: " + e.getMessage());
+        }
+        
         return "redirect:/app/misproductos";
     }
 
