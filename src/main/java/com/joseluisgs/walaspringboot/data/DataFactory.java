@@ -224,7 +224,7 @@ public class DataFactory {
                         "Cargador inalámbrico MagSafe original + soporte + cable USB-C. Carga rápida garantizada.",
                         "Accessories", maria),
                 new Product("Anker PowerCore", 45.0f,
-                        "https://images.unsplash.com/photo-1564198890563-b65ccbce9fc5?w=400",
+                        "https://images.unsplash.com/photo-1567721913486-6585f069b332?w=400",
                         "Batería portátil 20.000mAh con carga rápida PD. Ideal para viajes y emergencias energéticas.",
                         "Accessories", carlos),
                 new Product("Samsung Galaxy Watch", 289.0f,
