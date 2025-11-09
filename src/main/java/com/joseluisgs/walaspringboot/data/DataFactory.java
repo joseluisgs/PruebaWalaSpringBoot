@@ -240,7 +240,7 @@ public class DataFactory {
                         "Cámara web 4K con autoenfoque, ideal para streaming y videoconferencias profesionales.",
                         "Accessories", laura),
                 new Product("Wireless Charger Stand", 39.0f,
-                        "https://images.unsplash.com/photo-1591290619762-9024626fd9b2?w=400",
+                        "https://images.unsplash.com/photo-1583394838336-acd977736f90?w=400",
                         "Soporte cargador inalámbrico con ventilador de refrigeración. Compatible con todos los estándares Qi.",
                         "Accessories", javier)
         );
