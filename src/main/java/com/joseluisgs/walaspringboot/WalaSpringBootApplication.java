@@ -20,7 +20,7 @@ import java.util.List;
 @SpringBootApplication
 public class WalaSpringBootApplication {
 
-    public static void main(String[] args) {
+    static void main(String[] args) {
         SpringApplication.run(WalaSpringBootApplication.class, args);
     }
 
@@ -35,13 +35,13 @@ public class WalaSpringBootApplication {
             System.out.println("🔧 PERFIL DEV: Cargando datos de prueba...");
 
             // Crear usuarios con diferentes roles
-            User admin = new User("Admin", "Administrador", null, "admin@walaspringboot.com", "admin", "ADMIN");
+            User admin = new User("Admin", "Administrador", null, "admin@admin", "admin", "ADMIN");
             admin = usuarioServicio.registrar(admin);
 
             User usuario = new User("Prueba", "Probando Mucho", null, "prueba@prueba.com", "prueba", "USER");
             usuario = usuarioServicio.registrar(usuario);
 
-            User moderador = new User("Moderador", "User", null, "moderador@walaspringboot.com", "moderador", "MODERATOR");
+            User moderador = new User("Moderador", "User", null, "moderador@moderador ", "moderador", "MODERATOR");
             moderador = usuarioServicio.registrar(moderador);
 
             User usuario2 = new User("Otro", "User", null, "otro@otro.com", "otro", "USER");
