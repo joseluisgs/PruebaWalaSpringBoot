@@ -65,14 +65,91 @@ public class AdminController {
     }
 
     @GetMapping("/usuarios/eliminar/{id}")
-    public String eliminarUsuario(@org.springframework.web.bind.annotation.PathVariable Long id) {
-        usuarioServicio.borrar(id);
+    public String eliminarUsuario(@org.springframework.web.bind.annotation.PathVariable Long id,
+                                 org.springframework.web.servlet.mvc.support.RedirectAttributes redirectAttributes,
+                                 org.springframework.security.core.Authentication auth) {
+        try {
+            var usuario = usuarioServicio.findById(id);
+            
+            if (usuario == null) {
+                redirectAttributes.addFlashAttribute("error", "Usuario no encontrado.");
+                return "redirect:/admin/usuarios";
+            }
+            
+            // Verificar si es el usuario admin principal
+            if ("admin@walaspringboot.com".equals(usuario.getEmail())) {
+                redirectAttributes.addFlashAttribute("error", 
+                    "No se puede eliminar el usuario administrador principal.");
+                return "redirect:/admin/usuarios";
+            }
+            
+            // Verificar productos activos asociados
+            long productCount = productoServicio.countByPropietarioActive(usuario);
+            if (productCount > 0) {
+                redirectAttributes.addFlashAttribute("error", 
+                    String.format("No se puede eliminar el usuario '%s %s' porque tiene %d productos asociados. " +
+                    "Elimine primero todos sus productos o márquelos como eliminados.", 
+                    usuario.getNombre(), usuario.getApellidos(), productCount));
+                return "redirect:/admin/usuarios";
+            }
+            
+            // Verificar compras realizadas
+            long purchaseCount = compraServicio.countByPropietario(usuario);
+            if (purchaseCount > 0) {
+                redirectAttributes.addFlashAttribute("warning", 
+                    String.format("El usuario '%s %s' tiene %d compras asociadas. Se marcará como eliminado " +
+                    "pero se mantendrán sus compras para integridad histórica.", 
+                    usuario.getNombre(), usuario.getApellidos(), purchaseCount));
+            }
+            
+            // Soft delete
+            usuarioServicio.softDelete(id, auth.getName());
+            
+            redirectAttributes.addFlashAttribute("success", 
+                String.format("Usuario '%s %s' eliminado correctamente.", 
+                usuario.getNombre(), usuario.getApellidos()));
+                
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", 
+                "Error al eliminar el usuario: " + e.getMessage());
+        }
+        
         return "redirect:/admin/usuarios";
     }
 
     @GetMapping("/productos/eliminar/{id}")
-    public String eliminarProducto(@org.springframework.web.bind.annotation.PathVariable Long id) {
-        productoServicio.borrar(productoServicio.findById(id));
+    public String eliminarProducto(@org.springframework.web.bind.annotation.PathVariable Long id,
+                                  org.springframework.web.servlet.mvc.support.RedirectAttributes redirectAttributes,
+                                  org.springframework.security.core.Authentication auth) {
+        try {
+            var producto = productoServicio.findById(id);
+            
+            if (producto == null) {
+                redirectAttributes.addFlashAttribute("error", "Producto no encontrado.");
+                return "redirect:/admin/productos";
+            }
+            
+            // Verificar si ha sido vendido
+            if (productoServicio.hasBeenSold(producto)) {
+                redirectAttributes.addFlashAttribute("warning", 
+                    String.format("El producto '%s' ya ha sido vendido y no puede eliminarse. " +
+                    "Se ha marcado como no disponible para mantener la integridad de las ventas.", 
+                    producto.getNombre()));
+                
+                // Soft delete para productos vendidos
+                productoServicio.softDelete(id, auth.getName());
+            } else {
+                // Si no se ha vendido, permitir borrado físico
+                productoServicio.borrar(producto);
+                redirectAttributes.addFlashAttribute("success", 
+                    String.format("Producto '%s' eliminado correctamente.", producto.getNombre()));
+            }
+            
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", 
+                "Error al eliminar el producto: " + e.getMessage());
+        }
+        
         return "redirect:/admin/productos";
     }
 

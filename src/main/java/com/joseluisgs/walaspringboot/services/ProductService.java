@@ -11,6 +11,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductService {
@@ -49,12 +50,12 @@ public class ProductService {
 
     @Cacheable(value = "productos")
     public List<Product> findAll() {
-        return repositorio.findAll();
+        return repositorio.findAllActive();
     }
 
     @Cacheable(value = "productos", key = "'usuario_' + #u.id")
     public List<Product> productosDeUnPropietario(User u) {
-        return repositorio.findByPropietario(u);
+        return repositorio.findByPropietarioActive(u);
     }
 
     @Cacheable(value = "productos", key = "'compra_' + #c.id")
@@ -77,5 +78,26 @@ public class ProductService {
 
     public List<Product> variosPorId(List<Long> ids) {
         return repositorio.findAllById(ids);
+    }
+    
+    public long countByPropietarioActive(User user) {
+        return repositorio.countByPropietarioActive(user);
+    }
+    
+    public Optional<Product> findByIdOptional(Long id) {
+        return repositorio.findActiveById(id);
+    }
+    
+    @CacheEvict(value = "productos", allEntries = true)
+    public void softDelete(Long id, String deletedBy) {
+        Product product = findById(id);
+        if (product != null) {
+            product.softDelete(deletedBy);
+            repositorio.save(product);
+        }
+    }
+    
+    public boolean hasBeenSold(Product product) {
+        return product.getCompra() != null;
     }
 }

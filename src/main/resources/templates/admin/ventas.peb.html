@@ -48,13 +48,11 @@
                             <td>{{ compra.propietario.nombre }} {{ compra.propietario.apellidos }}</td>
                             <td>{{ compra.propietario.email }}</td>
                             <td>
-                                <a href="/app/miscompras/factura/{{ compra.id }}" class="btn btn-sm btn-info">
-                                    <i class="bi bi-eye"></i> Ver Detalles
+                                <a href="/app/miscompras/factura/{{ compra.id }}/pdf" class="btn btn-outline-primary btn-sm" target="_blank">
+                                    <i class="bi bi-file-pdf"></i> Ver PDF
                                 </a>
-                            </td>
-                            <td>
-                                <a href="/app/miscompras/factura/pdf/{{ compra.id }}" class="btn btn-sm btn-danger" target="_blank">
-                                    <i class="bi bi-file-pdf"></i> PDF
+                                <a href="/app/miscompras/factura/{{ compra.id }}" class="btn btn-outline-info btn-sm">
+                                    <i class="bi bi-eye"></i> Ver Detalle
                                 </a>
                             </td>
                         </tr>

@@ -55,4 +55,12 @@ public class PurchaseService {
     public List<Purchase> findAll() {
         return repositorio.findAll();
     }
+    
+    public long countByPropietario(User user) {
+        return repositorio.countByPropietario(user);
+    }
+    
+    public boolean existsByProduct(Product product) {
+        return repositorio.existsByProduct(product);
+    }
 }

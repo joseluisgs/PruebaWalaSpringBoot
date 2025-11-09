@@ -8,6 +8,8 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class UserService {
 
@@ -35,7 +37,7 @@ public class UserService {
 
     @Cacheable(value = "usuarios")
     public java.util.List<User> findAll() {
-        return repositorio.findAll();
+        return repositorio.findAllActive();
     }
 
     @CacheEvict(value = "usuarios", allEntries = true)
@@ -46,5 +48,22 @@ public class UserService {
     @CacheEvict(value = "usuarios", allEntries = true)
     public void borrar(Long id) {
         repositorio.deleteById(id);
+    }
+    
+    public Optional<User> findByIdOptional(Long id) {
+        return repositorio.findActiveById(id);
+    }
+    
+    @CacheEvict(value = "usuarios", allEntries = true)
+    public void softDelete(Long id, String deletedBy) {
+        User user = findById(id);
+        if (user != null) {
+            user.softDelete(deletedBy);
+            repositorio.save(user);
+        }
+    }
+    
+    public Optional<User> findByEmail(String email) {
+        return Optional.ofNullable(buscarPorEmail(email));
     }
 }
