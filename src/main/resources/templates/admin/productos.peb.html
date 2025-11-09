@@ -52,7 +52,7 @@
                         <td><strong>{{ producto.precio | formatPrice }}</strong></td>
                         <td>
                             {% if producto.categoria %}
-                            <span class="badge bg-info">{{ producto.categoria.displayNameWithEmoji }}</span>
+                            <span class="badge bg-info">{{ producto.categoria.emoji }} {{ producto.categoria.displayName }}</span>
                             {% else %}
                             <span class="badge bg-secondary">Sin categoría</span>
                             {% endif %}

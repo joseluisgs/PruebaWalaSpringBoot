@@ -33,7 +33,7 @@
                     <div class="mb-3">
                         <h3>{{ producto.nombre }}</h3>
                         {% if producto.categoria %}
-                        <span class="badge bg-primary fs-6">{{ producto.categoria.displayNameWithEmoji }}</span>
+                        <span class="badge bg-primary fs-6">{{ producto.categoria.emoji }} {{ producto.categoria.displayName }}</span>
                         {% endif %}
                     </div>
                     <div class="mb-3">

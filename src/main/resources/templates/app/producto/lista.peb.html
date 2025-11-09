@@ -87,7 +87,7 @@
                     <div class="d-flex flex-column">
                         <span>{{ producto.nombre }}</span>
                         {% if producto.categoria %}
-                        <span class="badge bg-info mt-1" style="width: fit-content;">{{ producto.categoria.displayNameWithEmoji }}</span>
+                        <span class="badge bg-info mt-1" style="width: fit-content;">{{ producto.categoria.emoji }} {{ producto.categoria.displayName }}</span>
                         {% endif %}
                     </div>
                     {% if producto.compra is null %}
