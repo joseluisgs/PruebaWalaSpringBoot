@@ -115,4 +115,25 @@ public class GlobalControllerAdvice {
         int count = getCartItemCount(request);
         return count > 0 ? Integer.toString(count) : "";
     }
+
+    // ⭐ GLOBAL VARIABLES FOR TEMPLATES ⭐
+    @ModelAttribute("defaultImage")
+    public String getDefaultImage() {
+        return Product.DEFAULT_IMAGE_URL;
+    }
+
+    @ModelAttribute("filesPath")
+    public String getFilesPath() {
+        return "/files/";
+    }
+
+    @ModelAttribute("appName")
+    public String getAppName() {
+        return "WalaSpringBoot";
+    }
+
+    @ModelAttribute("currentDateTime")
+    public java.time.LocalDateTime getCurrentDateTime() {
+        return java.time.LocalDateTime.now();
+    }
 }

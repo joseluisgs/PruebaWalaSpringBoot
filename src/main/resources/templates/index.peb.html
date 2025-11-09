@@ -58,7 +58,9 @@
             <div class="card h-100 shadow-sm producto-card"
                  onclick="window.location='/public/producto/{{ producto.id }}';" style="cursor: pointer;">
                 <img alt="{{ producto.nombre }}"
-                     class="card-img-top" src="{% if producto.imagen is empty %}https://placehold.co/400x300/667eea/white?text={{ producto.nombre | url_encode }}{% else %}{{ producto.imagen }}{% endif %}" style="height: 300px; object-fit: cover;">
+                     class="card-img-top" 
+                     src="{{ producto.imagenOrDefault }}" 
+                     style="height: 300px; object-fit: cover;">
                 <div class="card-body">
                     <h5 class="card-title">{{ producto.nombre }}</h5>
                     {% if producto.descripcion %}

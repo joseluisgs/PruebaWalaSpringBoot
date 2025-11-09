@@ -9,6 +9,7 @@ import java.util.Objects;
 @Entity
 public class Product {
     public static final String DEFAULT_IMAGE = "https://cdn-icons-png.flaticon.com/512/5617/5617585.png";
+    public static final String DEFAULT_IMAGE_URL = "https://cdn-icons-png.flaticon.com/512/5617/5617585.png";
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -165,6 +166,21 @@ public class Product {
 
     public boolean isActive() {
         return !deleted;
+    }
+
+    /**
+     * Método helper para simplificar templates
+     * Retorna la URL de la imagen o la imagen por defecto si no hay imagen
+     */
+    public String getImagenOrDefault() {
+        if (this.imagen != null && !this.imagen.isEmpty()) {
+            if (this.imagen.startsWith("http")) {
+                return this.imagen;
+            } else {
+                return "/files/" + this.imagen;
+            }
+        }
+        return DEFAULT_IMAGE_URL;
     }
 
     @Override
