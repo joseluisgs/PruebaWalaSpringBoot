@@ -469,9 +469,9 @@ public String getCsrfParamName(HttpServletRequest request) {
 ```java
 package com.joseluisgs.walaspringboot.controllers;
 
-import models.dev.joseluisgs.walaspringboot.Product;
-import models.dev.joseluisgs.walaspringboot.User;
-import services.dev.joseluisgs.walaspringboot.ProductService;
+import models.dev.joseluisgs.waladaw.Product;
+import models.dev.joseluisgs.waladaw.User;
+import services.dev.joseluisgs.waladaw.ProductService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
