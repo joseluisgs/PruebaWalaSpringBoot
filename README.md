@@ -108,14 +108,6 @@ docker-compose down
 ## ⚒️ Diagrama
 
 ```mermaid
-Ese error ocurre porque GitHub (y algunos otros visores de Markdown) son muy estrictos con la sintaxis de Mermaid. El mensaje "Cannot read properties of undefined (reading 'annotations')" suele aparecer cuando hay caracteres especiales, comentarios mal formados o una dirección de flecha que el motor de renderizado no reconoce correctamente.
-
-Para solucionarlo, he simplificado las relaciones y eliminado los comentarios internos de Mermaid que a veces causan conflictos en GitHub.
-
-Aquí tienes la versión optimizada para GitHub:
-
-Fragmento de código
-
 classDiagram
     direction TB
 
@@ -124,23 +116,41 @@ classDiagram
         +String nombre
         +String apellidos
         +String email
-        +Role rol
+        +String rol
         +Boolean deleted
-    }
-
-    class Role {
-        <<enumeration>>
-        USER
-        ADMIN
     }
 
     class Product {
         +long id
         +String nombre
         +float precio
-        +ProductCategory categoria
         +boolean reservado
         +Boolean deleted
+    }
+
+    class Purchase {
+        +long id
+        +Double total
+    }
+
+    class CarritoItem {
+        +long id
+        +int cantidad
+    }
+
+    class Favorite {
+        +long id
+    }
+
+    class Rating {
+        +long id
+        +int puntuacion
+    }
+
+    class Role {
+        <<enumeration>>
+        USER
+        ADMIN
     }
 
     class ProductCategory {
@@ -152,43 +162,20 @@ classDiagram
         ACCESSORIES
     }
 
-    class Purchase {
-        +long id
-        +Date fechaCompra
-        +Double total
-    }
-
-    class CarritoItem {
-        +long id
-        +int cantidad
-    }
-
-    class Favorite {
-        +long id
-        +Date fechaCreacion
-    }
-
-    class Rating {
-        +long id
-        +int puntuacion
-        +String comentario
-    }
-
-    User --> Role
+    User "*" -- "1" Role : tiene
     User "1" -- "*" Product : propietario
     User "1" -- "*" Purchase : realiza
     User "1" -- "*" CarritoItem : gestiona
     User "1" -- "*" Favorite : marca
     User "1" -- "*" Rating : escribe
 
-    Product --> ProductCategory
-    Product "*" -- "0..1" Purchase : pertenece
-    Product "1" -- "*" CarritoItem : producto
-    Product "1" -- "*" Favorite : favorito
-    Product "1" -- "*" Rating : valorado
+    Product "*" -- "1" ProductCategory : categoria
+    Product "*" -- "0..1" Purchase : compra
+    Product "1" -- "*" CarritoItem : item
+    Product "1" -- "*" Favorite : fav
+    Product "1" -- "*" Rating : val
 
-    Purchase "1" --> "*" Product : contiene
-
+    Purchase "1" -- "*" Product : contiene
 ```
 
 ## 📂 Estructura del Proyecto
